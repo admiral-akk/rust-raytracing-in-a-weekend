@@ -10,17 +10,33 @@ const ctx = canvas.getContext('2d');
 ctx.canvas.width = width;
 ctx.canvas.height = height;
 
-function color(x, y) {
+function clamp(num, min, max) {
+    return num <= min
+        ? min
+        : num >= max
+            ? max
+            : num
+}
 
+const toHex = (val, max) => {
+    let s = Math.round(clamp(256 * (val / max), 0, 255)).toString(16).toUpperCase();
+    while (s.length < 2) {
+        s = "0" + s;
+    }
+    return s;
+}
 
+const color = (x, y) => {
+    const red = toHex(x, width);
+    const green = toHex(y, height);
+    return `#${red}${green}00`;
 }
 
 const drawPixels = () => {
     ctx.beginPath();
-
     for (let x = 0; x < width; x++) {
         for (let y = 0; y < height; y++) {
-            ctx.fillStyle = "#00FF00";
+            ctx.fillStyle = color(x, y);
             ctx.fillRect(
                 x,
                 y,
