@@ -8,5 +8,6 @@
         "{,**/}LICENSE*": true,
         "{,**/}README*": true,
         "{,**/}package-lock*": true,
-    }
+    },
+    // "files.exclude": {}
 }
