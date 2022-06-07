@@ -22,7 +22,6 @@ const drawPixel = (x, y, r, g, b) => {
 const start = Date.now();
 
 const drawPixels = () => {
-    console.log("rendering");
     display.tick();
     const pixelsPtr = display.pixels();
     const pixels = new Uint8Array(memory.buffer, pixelsPtr, 3 * width * height);
