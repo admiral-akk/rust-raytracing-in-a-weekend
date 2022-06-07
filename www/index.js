@@ -1,8 +1,8 @@
 import { Display } from "rust-ray";
 import { memory } from "rust-ray/rust_ray_bg";
 
-const width = 1000;
-const height = 1000;
+const width = 1600;
+const height = 900;
 
 const display = Display.new(width, height);
 const canvas = document.getElementById("raytracing-canvas");
@@ -15,7 +15,7 @@ var data = ctx.createImageData(ctx.canvas.width, ctx.canvas.height);
 var buf = new Uint32Array(data.data.buffer);
 
 const drawPixel = (x, y, r, g, b) => {
-    const index = x * width + y;
+    const index = x + y * width;
     buf[index] = r + (g << 8) + (b << 16) + (255 << 24);
 }
 
@@ -27,9 +27,9 @@ const drawPixels = () => {
     display.tick(time);
     const pixelsPtr = display.pixels();
     const pixels = new Uint8Array(memory.buffer, pixelsPtr, 3 * width * height);
-    for (let x = 0; x < display.width(); x++) {
-        for (let y = 0; y < display.height(); y++) {
-            const index = 3 * (x * width + y);
+    for (let y = 0; y < display.height(); y++) {
+        for (let x = 0; x < display.width(); x++) {
+            const index = 3 * (x + y * width);
             drawPixel(x, y, pixels[index], pixels[index + 1], pixels[index + 2]);
         }
     }

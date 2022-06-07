@@ -34,10 +34,10 @@ impl Display {
     }
 
     pub fn tick(&mut self, time: u32) -> () {
-        for x in 0..self.width {
-            for y in 0..self.height {
+        for y in 0..self.height {
+            for x in 0..self.width {
                 let index = (3
-                    * (((x + time) % self.width) * self.width + ((y + time) % self.height)))
+                    * (((x + time) % self.width) + ((y + time) % self.height) * self.width))
                     as usize;
                 let color = &mut self.pixels[index..(index + 3)];
                 (color[0], color[1], color[2]) = pixel(x, y, self.width, self.height);
