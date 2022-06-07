@@ -1,14 +1,14 @@
-import * as wasm from "rust-ray";
-
-//wasm.greet();
-
+import { Display } from "rust-ray";
+import { memory } from "rust-ray/rust_ray_bg";
 
 const width = 1000;
 const height = 1000;
+
+const display = Display.new(width, height);
 const canvas = document.getElementById("raytracing-canvas");
 const ctx = canvas.getContext('2d');
-ctx.canvas.width = width;
-ctx.canvas.height = height;
+ctx.canvas.width = display.width();
+ctx.canvas.height = display.height();
 
 const start = Date.now();
 
@@ -20,36 +20,35 @@ function clamp(num, min, max) {
             : num
 }
 
-const toHex = (val, max) => {
-    let s = Math.round(clamp(256 * (val / max), 0, 255)).toString(16).toUpperCase();
+const toHex = (val) => {
+    let s = Math.round(clamp(val, 0, 256)).toString(16).toUpperCase();
     while (s.length < 2) {
         s = "0" + s;
     }
     return s;
 }
 
-const color = (x, y) => {
-    const red = toHex(x, width);
-    const green = toHex(y, height);
-    return `#${red}${green}00`;
+const color = (r, g, b) => {
+    return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
 }
 
 const drawPixels = () => {
+    console.log("rendering");
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.beginPath();
-    const time = Date.now() - start;
-    for (let x = 0; x < width; x++) {
-        for (let y = 0; y < height; y++) {
-            ctx.fillStyle = color(x, y);
-            ctx.fillRect(
-                (x + time) % width,
-                (y + time) % height,
-                1,
-                1
-            );
+    display.tick();
+    const pixelsPtr = display.pixels();
+    const pixels = new Uint8Array(memory.buffer, pixelsPtr, 3 * width * height);
+    for (let x = 0; x < display.width(); x++) {
+        for (let y = 0; y < display.height(); y++) {
+            const index = 3 * (x * width + y);
+            ctx.fillStyle = color(pixels[index], pixels[index + 1], pixels[index + 2]);
+            ctx.fillRect(x, y, 1, 1);
         }
     }
     ctx.stroke();
 };
+
 const renderLoop = () => {
     drawPixels();
     requestAnimationFrame(renderLoop);
