@@ -22,7 +22,9 @@ const drawPixel = (x, y, r, g, b) => {
 const start = Date.now();
 
 const drawPixels = () => {
-    display.tick();
+    const time = Date.now() - start;
+    console.log(time);
+    display.tick(time);
     const pixelsPtr = display.pixels();
     const pixels = new Uint8Array(memory.buffer, pixelsPtr, 3 * width * height);
     for (let x = 0; x < display.width(); x++) {

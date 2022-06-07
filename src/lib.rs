@@ -1,5 +1,7 @@
+mod math;
 mod utils;
 
+pub use crate::math::vector::Vec3;
 use wasm_bindgen::prelude::*;
 
 // When the `wee_alloc` feature is enabled, use `wee_alloc` as the global
@@ -31,10 +33,12 @@ impl Display {
         }
     }
 
-    pub fn tick(&mut self) -> () {
+    pub fn tick(&mut self, time: u32) -> () {
         for x in 0..self.width {
             for y in 0..self.height {
-                let index = (3 * (x * self.width + y)) as usize;
+                let index = (3
+                    * (((x + time) % self.width) * self.width + ((y + time) % self.height)))
+                    as usize;
                 let color = &mut self.pixels[index..(index + 3)];
                 (color[0], color[1], color[2]) = pixel(x, y, self.width, self.height);
             }
