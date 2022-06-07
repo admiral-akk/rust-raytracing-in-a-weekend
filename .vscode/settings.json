@@ -1,0 +1,12 @@
+// Workspace settings
+{
+    // The following will hide the js and map files in the editor
+    "files.exclude": {
+        "target": true,
+        "pkg": true,
+        "www/node_modules": true,
+        "{,**/}LICENSE*": true,
+        "{,**/}README*": true,
+        "{,**/}package-lock*": true,
+    }
+}
