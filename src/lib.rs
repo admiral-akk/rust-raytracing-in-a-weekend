@@ -59,6 +59,10 @@ impl Display {
             pos: vector::FORWARD * 2.0 + vector::RIGHT * 1.0,
             radius: 0.5,
         }));
+        display.world.push(Box::new(Sphere {
+            pos: vector::DOWN * 101.5,
+            radius: 100.0,
+        }));
         return display;
     }
 

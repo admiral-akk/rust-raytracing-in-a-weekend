@@ -1,6 +1,6 @@
 use crate::{
     hittable::HitRecord,
-    math::vector::{self, RIGHT, UP},
+    math::vector::{self, DOWN, RIGHT},
     Ray, Vec3, World,
 };
 
@@ -31,7 +31,7 @@ impl Camera {
         let ray = Ray {
             pos: self.pos,
             dir: self.dir * self.focal_length
-                + UP * self.viewport_height * view_y
+                + DOWN * self.viewport_height * view_y
                 + RIGHT * self.viewport_width * view_x,
         };
 

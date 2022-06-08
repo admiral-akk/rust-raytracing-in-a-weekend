@@ -25,7 +25,7 @@ pub const RIGHT: Vec3 = Vec3 {
     z: 0.0,
 };
 
-pub const UP: Vec3 = Vec3 {
+pub const DOWN: Vec3 = Vec3 {
     x: 0.0,
     y: 1.0,
     z: 0.0,
