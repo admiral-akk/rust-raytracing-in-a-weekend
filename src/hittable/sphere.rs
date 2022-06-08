@@ -8,7 +8,7 @@ pub struct Sphere {
 }
 
 impl Hittable for Sphere {
-    fn is_hit(&self, ray: Ray) -> bool {
+    fn is_hit(&self, ray: &Ray) -> bool {
         let diff = self.pos - ray.pos;
         let c = diff.len_sq() - self.radius * self.radius;
 
@@ -20,7 +20,7 @@ impl Hittable for Sphere {
         return false;
     }
 
-    fn hit_normal(&self, ray: Ray) -> Vec3 {
+    fn hit_normal(&self, ray: &Ray) -> Vec3 {
         let diff = self.pos - ray.pos;
         let c = diff.len_sq() - self.radius * self.radius;
 
