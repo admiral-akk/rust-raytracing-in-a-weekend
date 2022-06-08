@@ -3,6 +3,11 @@ use crate::{Ray, Vec3};
 pub mod sphere;
 
 pub trait Hittable {
-    fn is_hit(&self, ray: &Ray) -> bool;
-    fn hit_normal(&self, ray: &Ray) -> Vec3;
+    fn hit(&self, ray: &Ray, hit_record: &mut HitRecord);
+}
+
+pub struct HitRecord {
+    pub point: Vec3,
+    pub normal: Vec3,
+    pub t: f32,
 }

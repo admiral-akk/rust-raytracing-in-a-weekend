@@ -1,4 +1,5 @@
 use crate::{
+    hittable::HitRecord,
     math::vector::{self, RIGHT, UP},
     Ray, Vec3, World,
 };
@@ -33,8 +34,15 @@ impl Camera {
                 + UP * self.viewport_height * view_y
                 + RIGHT * self.viewport_width * view_x,
         };
-        if world.is_hit(&ray) {
-            let norm = world.hit_normal(&ray);
+
+        let mut temp: HitRecord = HitRecord {
+            point: vector::ZERO,
+            normal: vector::ZERO,
+            t: f32::INFINITY,
+        };
+        world.hit(&ray, &mut temp);
+        if temp.t < f32::INFINITY {
+            let norm = temp.normal;
             return (
                 ((norm.x + 1.0) * 256.0 / 2.0) as u8,
                 ((norm.y + 1.0) * 256.0 / 2.0) as u8,

@@ -1,4 +1,8 @@
-use crate::{hittable::Hittable, math::vector, Ray, Vec3};
+use crate::{
+    hittable::{HitRecord, Hittable},
+    math::vector,
+    Ray,
+};
 
 pub struct World {
     objects: Vec<Box<dyn Hittable>>,
@@ -17,20 +21,20 @@ impl World {
 }
 
 impl Hittable for World {
-    fn is_hit(&self, ray: &Ray) -> bool {
+    fn hit(&self, ray: &Ray, hit_record: &mut HitRecord) {
+        let mut temp: HitRecord = HitRecord {
+            point: vector::ZERO,
+            normal: vector::ZERO,
+            t: -1.0,
+        };
+
         for hittable in &self.objects {
-            if hittable.is_hit(ray) {
-                return true;
+            hittable.hit(ray, &mut temp);
+            if temp.t < hit_record.t {
+                hit_record.t = temp.t;
+                hit_record.normal = temp.normal;
+                hit_record.point = temp.point;
             }
         }
-        return false;
-    }
-    fn hit_normal(&self, ray: &Ray) -> Vec3 {
-        for hittable in &self.objects {
-            if hittable.is_hit(ray) {
-                return hittable.hit_normal(ray);
-            }
-        }
-        return vector::ZERO;
     }
 }
