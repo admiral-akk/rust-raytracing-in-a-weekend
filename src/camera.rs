@@ -1,6 +1,6 @@
 use crate::{
     math::vector::{self, RIGHT, UP},
-    Ray, Vec3,
+    Ray, Vec3, World,
 };
 
 use crate::hittable::Hittable;
@@ -24,7 +24,7 @@ impl Camera {
         }
     }
 
-    pub fn color(&self, x: f32, y: f32, hittables: &Vec<Box<dyn Hittable>>) -> (u8, u8, u8) {
+    pub fn color(&self, x: f32, y: f32, world: &World) -> (u8, u8, u8) {
         let view_x = x - 0.5;
         let view_y = y - 0.5;
         let ray = Ray {
@@ -33,15 +33,13 @@ impl Camera {
                 + UP * self.viewport_height * view_y
                 + RIGHT * self.viewport_width * view_x,
         };
-        for hittable in hittables {
-            if hittable.is_hit(&ray) {
-                let norm = hittable.hit_normal(&ray);
-                return (
-                    ((norm.x + 1.0) * 256.0 / 2.0) as u8,
-                    ((norm.y + 1.0) * 256.0 / 2.0) as u8,
-                    ((norm.z + 1.0) * 256.0 / 2.0) as u8,
-                );
-            }
+        if world.is_hit(&ray) {
+            let norm = world.hit_normal(&ray);
+            return (
+                ((norm.x + 1.0) * 256.0 / 2.0) as u8,
+                ((norm.y + 1.0) * 256.0 / 2.0) as u8,
+                ((norm.z + 1.0) * 256.0 / 2.0) as u8,
+            );
         }
         let color = ray.dir.normalized() * 256.0;
         return (color.z as u8, color.z as u8, 255);
