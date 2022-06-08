@@ -1,4 +1,4 @@
-use crate::{Ray, Vec3};
+use crate::{math::vector, Ray, Vec3};
 
 pub mod sphere;
 
@@ -10,4 +10,16 @@ pub struct HitRecord {
     pub point: Vec3,
     pub normal: Vec3,
     pub t: f32,
+}
+
+pub const DEFAULT: HitRecord = HitRecord {
+    point: vector::ZERO,
+    normal: vector::ZERO,
+    t: f32::INFINITY,
+};
+
+impl HitRecord {
+    pub fn hit(&self) -> bool {
+        self.t < f32::INFINITY
+    }
 }

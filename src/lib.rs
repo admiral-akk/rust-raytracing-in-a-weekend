@@ -1,4 +1,5 @@
 mod camera;
+mod color;
 mod hittable;
 mod math;
 mod utils;
@@ -6,6 +7,7 @@ mod world;
 
 pub use crate::camera::Camera;
 
+pub use crate::color::Color;
 pub use crate::hittable::sphere::Sphere;
 pub use crate::math::ray::Ray;
 use crate::math::vector;
@@ -48,19 +50,11 @@ impl Display {
             world: World::new(),
         };
         display.world.push(Box::new(Sphere {
-            pos: vector::FORWARD * 3.0,
-            radius: 1.0,
-        }));
-        display.world.push(Box::new(Sphere {
-            pos: vector::FORWARD * 5.0 + vector::RIGHT * 3.0,
-            radius: 1.0,
-        }));
-        display.world.push(Box::new(Sphere {
-            pos: vector::FORWARD * 2.0 + vector::RIGHT * 1.0,
+            pos: vector::FORWARD,
             radius: 0.5,
         }));
         display.world.push(Box::new(Sphere {
-            pos: vector::DOWN * 101.5,
+            pos: vector::FORWARD + (vector::DOWN * 100.5),
             radius: 100.0,
         }));
         return display;
@@ -71,27 +65,24 @@ impl Display {
         let mut rng = thread_rng();
         for y in 0..self.height {
             for x in 0..self.width {
-                let (mut r, mut g, mut b): (u32, u32, u32) = (0, 0, 0);
+                let mut color = Color {
+                    x: 0.0,
+                    y: 0.0,
+                    z: 0.0,
+                };
                 for _ in 0..self.sample_count {
-                    let sample = self.camera.color(
+                    color += self.camera.color(
                         ((x as f32) + rng.gen_range(0.0..=1.0)) / (self.width as f32),
                         ((y as f32) + rng.gen_range(0.0..=1.0)) / (self.height as f32),
                         &self.world,
                     );
-                    r += sample.0 as u32;
-                    g += sample.1 as u32;
-                    b += sample.2 as u32;
                 }
 
                 let index = (3
                     * (((x + time) % self.width) + ((y + time) % self.height) * self.width))
                     as usize;
-                let color = &mut self.pixels[index..(index + 3)];
-                (color[0], color[1], color[2]) = (
-                    (r / self.sample_count) as u8,
-                    (g / self.sample_count) as u8,
-                    (b / self.sample_count) as u8,
-                );
+                let color_arr = &mut self.pixels[index..(index + 3)];
+                (color_arr[0], color_arr[1], color_arr[2]) = color.to_rgb(self.sample_count as f32);
             }
         }
     }
