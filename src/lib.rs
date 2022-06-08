@@ -1,8 +1,11 @@
 mod camera;
+mod hittable;
 mod math;
 mod utils;
 
 pub use crate::camera::Camera;
+
+pub use crate::hittable::sphere::Sphere;
 pub use crate::math::ray::Ray;
 pub use crate::math::vector::Vec3;
 use wasm_bindgen::prelude::*;

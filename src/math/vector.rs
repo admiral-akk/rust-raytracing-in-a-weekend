@@ -1,4 +1,4 @@
-use std::ops::{Add, Mul};
+use std::ops::{Add, Mul, Sub};
 
 #[derive(Debug, Copy, Clone, PartialEq)]
 pub struct Vec3 {
@@ -33,12 +33,16 @@ pub const UP: Vec3 = Vec3 {
 
 impl Vec3 {
     pub fn normalized(&self) -> Vec3 {
-        let norm = (self.x * self.x + self.y * self.y + self.z * self.z).sqrt();
+        let norm = self.len_sq().sqrt();
         Vec3 {
             x: self.x / norm,
             y: self.y / norm,
             z: self.z / norm,
         }
+    }
+
+    pub fn len_sq(&self) -> f32 {
+        return self.x * self.x + self.y * self.y + self.z * self.z;
     }
 }
 
@@ -63,5 +67,25 @@ impl Mul<f32> for Vec3 {
             y: self.y * other,
             z: self.z * other,
         }
+    }
+}
+
+impl Sub for Vec3 {
+    type Output = Vec3;
+
+    fn sub(self, other: Vec3) -> Self {
+        Vec3 {
+            x: self.x - other.x,
+            y: self.y - other.y,
+            z: self.z - other.z,
+        }
+    }
+}
+
+impl Mul<Vec3> for Vec3 {
+    type Output = f32;
+
+    fn mul(self, other: Vec3) -> f32 {
+        return self.x * other.x + self.y * other.y + self.z * other.z;
     }
 }
