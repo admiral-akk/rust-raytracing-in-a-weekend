@@ -1,10 +1,11 @@
 import { Display } from "rust-ray";
 import { memory } from "rust-ray/rust_ray_bg";
 
-const width = 1600;
-const height = 900;
+const width = 3 * 160;
+const height = 3 * 90;
+const sample_count = 100;
 
-const display = Display.new(width, height);
+const display = Display.new(width, height, sample_count);
 const canvas = document.getElementById("raytracing-canvas");
 const ctx = canvas.getContext('2d');
 ctx.canvas.width = display.width();
