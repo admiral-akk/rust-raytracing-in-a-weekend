@@ -1,5 +1,5 @@
 use crate::{
-    hittable::{self, HitRecord, Hittable},
+    hittable::{hit_record, hit_record::HitRecord, hittable::Hittable},
     Ray,
 };
 
@@ -22,7 +22,7 @@ impl World {
 impl Hittable for World {
     fn hit(&self, ray: &Ray, hit_record: &mut HitRecord) {
         hit_record.t = f32::INFINITY;
-        let mut temp: HitRecord = hittable::DEFAULT;
+        let mut temp: HitRecord = hit_record::DEFAULT;
         for hittable in &self.objects {
             hittable.hit(ray, &mut temp);
             if !temp.hit() {

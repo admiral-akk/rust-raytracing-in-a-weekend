@@ -1,6 +1,6 @@
 use crate::{
     color,
-    hittable::{self, HitRecord, Hittable},
+    hittable::{hit_record, hit_record::HitRecord, hittable::Hittable},
     Color, Vec3, World,
 };
 #[derive(Debug, Copy, Clone, PartialEq)]
@@ -36,7 +36,7 @@ impl Ray {
         if depth == 0 {
             return color::BLACK;
         }
-        let mut temp: HitRecord = hittable::DEFAULT;
+        let mut temp: HitRecord = hit_record::DEFAULT;
         world.hit(&ray, &mut temp);
         if temp.hit() {
             ray.dir = Ray::generate_new_dir(&temp.normal);

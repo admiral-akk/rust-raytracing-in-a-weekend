@@ -1,10 +1,4 @@
-use crate::{math::vector, Ray, Vec3};
-
-pub mod sphere;
-
-pub trait Hittable {
-    fn hit(&self, ray: &Ray, hit_record: &mut HitRecord);
-}
+use crate::{math::vector, Vec3};
 
 pub struct HitRecord {
     pub point: Vec3,

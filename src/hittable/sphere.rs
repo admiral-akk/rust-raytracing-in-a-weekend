@@ -1,6 +1,6 @@
 use crate::{Ray, Vec3};
 
-use super::Hittable;
+use super::{hit_record::HitRecord, hittable::Hittable};
 
 pub struct Sphere {
     pub pos: Vec3,
@@ -8,7 +8,7 @@ pub struct Sphere {
 }
 
 impl Hittable for Sphere {
-    fn hit(&self, ray: &Ray, hit_record: &mut super::HitRecord) {
+    fn hit(&self, ray: &Ray, hit_record: &mut HitRecord) {
         let diff = self.pos - ray.pos;
         let c = diff * diff - self.radius * self.radius;
 
