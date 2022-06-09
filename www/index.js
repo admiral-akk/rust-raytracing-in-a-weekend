@@ -3,7 +3,7 @@ import { memory } from "rust-ray/rust_ray_bg";
 
 const width = 4 * 160;
 const height = 4 * 90;
-const sample_count = 20;
+const sample_count = 200;
 
 const display = Display.new(width, height, sample_count);
 const canvas = document.getElementById("raytracing-canvas");
