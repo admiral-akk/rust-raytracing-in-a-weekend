@@ -4,8 +4,6 @@ use crate::{
     hittable::{self, HitRecord, Hittable},
     Color, Vec3, World,
 };
-
-use rand::{thread_rng, Rng};
 #[derive(Debug, Copy, Clone, PartialEq)]
 pub struct Ray {
     pub pos: Vec3,
@@ -32,15 +30,7 @@ impl Ray {
     }
 
     fn generate_new_dir(normal: &Vec3) -> Vec3 {
-        let mut new_dir = vector::FORWARD * 10.0;
-        let mut rng = thread_rng();
-        while (*normal - new_dir).len_sq() > 1.0 {
-            new_dir.x = normal.x + rng.gen_range(-1.0..=1.0);
-            new_dir.y = normal.y + rng.gen_range(-1.0..=1.0);
-            new_dir.z = normal.z + rng.gen_range(-1.0..=1.0);
-        }
-
-        return ((new_dir - *normal).normalized() + *normal).normalized();
+        return ((Vec3::random_unit() - *normal).normalized() + *normal).normalized();
     }
 
     pub fn color(ray: &mut Ray, world: &World, depth: u32) -> Color {

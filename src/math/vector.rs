@@ -1,5 +1,7 @@
 use std::ops::{Add, AddAssign, Mul, Sub};
 
+use rand::{thread_rng, Rng};
+
 #[derive(Debug, Copy, Clone, PartialEq)]
 pub struct Vec3 {
     pub x: f32,
@@ -43,6 +45,20 @@ impl Vec3 {
 
     pub fn len_sq(&self) -> f32 {
         return self.x * self.x + self.y * self.y + self.z * self.z;
+    }
+
+    pub fn random_unit() -> Vec3 {
+        let mut rng = thread_rng();
+        loop {
+            let v = Vec3 {
+                x: rng.gen_range(-1.0..=1.0),
+                y: rng.gen_range(-1.0..=1.0),
+                z: rng.gen_range(-1.0..=1.0),
+            };
+            if v.len_sq() <= 1.0 {
+                return v.normalized();
+            }
+        }
     }
 }
 
