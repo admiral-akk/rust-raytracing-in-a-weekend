@@ -7,6 +7,7 @@ mod utils;
 pub use crate::hittable::sphere::Sphere;
 pub use crate::material::color::Color;
 pub use crate::material::lambertian::Lambertian;
+pub use crate::material::metal::Metal;
 pub use crate::math::ray::Ray;
 pub use crate::math::vector::Vec3;
 pub use crate::scene::camera::Camera;
@@ -54,12 +55,12 @@ impl Display {
             Box::new(Lambertian::new(color::GREY)),
         ));
         display.world.push(Object::new(
-            Box::new(Sphere::new(vector::FORWARD + vector::RIGHT * 1.5, 0.5)),
-            Box::new(Lambertian::new(color::LIGHT_RED)),
+            Box::new(Sphere::new(vector::FORWARD + vector::RIGHT * 1.0, 0.5)),
+            Box::new(Metal::new(color::LIGHT_RED)),
         ));
         display.world.push(Object::new(
-            Box::new(Sphere::new(vector::FORWARD - vector::RIGHT * 1.5, 0.5)),
-            Box::new(Lambertian::new(color::WHITE)),
+            Box::new(Sphere::new(vector::FORWARD - vector::RIGHT * 1.0, 0.5)),
+            Box::new(Metal::new(color::GREY)),
         ));
         display.world.push(Object::new(
             Box::new(Sphere::new(vector::FORWARD + (vector::DOWN * 100.5), 100.0)),
