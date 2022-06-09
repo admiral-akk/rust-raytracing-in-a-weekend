@@ -11,9 +11,9 @@ pub use crate::material::metal::Metal;
 pub use crate::math::ray::Ray;
 pub use crate::math::vector::Vec3;
 pub use crate::scene::camera::Camera;
-use crate::scene::object::Object;
 pub use crate::scene::world::World;
 use crate::{material::color, math::vector};
+use crate::{material::dielectric::Dielectric, scene::object::Object};
 use rand::{thread_rng, Rng};
 use wasm_bindgen::prelude::*;
 
@@ -52,15 +52,15 @@ impl Display {
         };
         display.world.push(Object::new(
             Box::new(Sphere::new(vector::FORWARD, 0.5)),
-            Box::new(Lambertian::new(color::GREY)),
+            Box::new(Dielectric::new(1.5)),
         ));
         display.world.push(Object::new(
             Box::new(Sphere::new(vector::FORWARD + vector::RIGHT * 1.0, 0.5)),
-            Box::new(Metal::new(color::LIGHT_RED)),
+            Box::new(Metal::new(color::LIGHT_RED, 1.0)),
         ));
         display.world.push(Object::new(
             Box::new(Sphere::new(vector::FORWARD - vector::RIGHT * 1.0, 0.5)),
-            Box::new(Metal::new(color::GREY)),
+            Box::new(Dielectric::new(1.5)),
         ));
         display.world.push(Object::new(
             Box::new(Sphere::new(vector::FORWARD + (vector::DOWN * 100.5), 100.0)),

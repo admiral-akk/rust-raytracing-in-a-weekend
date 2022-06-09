@@ -1,19 +1,21 @@
-use crate::{hittable::hit_record::HitRecord, Color, Ray};
+use crate::{hittable::hit_record::HitRecord, Color, Ray, Vec3};
 
 use super::material::Material;
 
 pub struct Metal {
     albedo: Color,
+    fuzz: f32,
 }
 
 impl Metal {
-    pub const fn new(albedo: Color) -> Self {
-        Self { albedo }
+    pub const fn new(albedo: Color, fuzz: f32) -> Self {
+        Self { albedo, fuzz }
     }
 
-    fn reflect(ray: &mut Ray, hit_record: &HitRecord) {
+    fn reflect(&self, ray: &mut Ray, hit_record: &HitRecord) {
         ray.pos = hit_record.point;
-        ray.dir = ray.dir - hit_record.normal * 2.0 * (ray.dir * hit_record.normal);
+        ray.dir = ray.dir - hit_record.normal * 2.0 * (ray.dir * hit_record.normal)
+            + Vec3::random_unit() * self.fuzz;
     }
 }
 
@@ -27,7 +29,7 @@ impl Material for Metal {
     ) -> bool {
         *attenuation = self.albedo;
         *scattered = *ray;
-        Metal::reflect(scattered, hit_record);
-        return true;
+        self.reflect(scattered, hit_record);
+        return scattered.dir * hit_record.normal > 0.0;
     }
 }
