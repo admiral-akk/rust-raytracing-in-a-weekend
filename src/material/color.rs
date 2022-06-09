@@ -1,5 +1,7 @@
 use std::ops::{Add, AddAssign, Mul};
 
+use crate::Vec3;
+
 pub struct Color {
     pub r: f32,
     pub g: f32,
@@ -14,12 +16,29 @@ impl Color {
             (256.0 * (self.b / iterations).sqrt()) as u8,
         )
     }
+
+    pub fn dir_to_color(dir: &Vec3) -> Color {
+        let t = 0.5 * (dir.y + 1.0);
+        return WHITE * t + LIGHT_BLUE * (1.0 - t);
+    }
 }
 
 pub const BLACK: Color = Color {
     r: 0.0,
     g: 0.0,
     b: 0.0,
+};
+
+pub const WHITE: Color = Color {
+    r: 1.0,
+    g: 1.0,
+    b: 1.0,
+};
+
+pub const LIGHT_BLUE: Color = Color {
+    r: 0.5,
+    g: 0.7,
+    b: 1.0,
 };
 
 impl Mul<Color> for Color {
