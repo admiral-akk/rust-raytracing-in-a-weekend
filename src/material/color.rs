@@ -2,6 +2,7 @@ use std::ops::{Add, AddAssign, Mul};
 
 use crate::Vec3;
 
+#[derive(Debug, Copy, Clone, PartialEq)]
 pub struct Color {
     pub r: f32,
     pub g: f32,
@@ -17,7 +18,7 @@ impl Color {
         )
     }
 
-    pub fn dir_to_color(dir: &Vec3) -> Color {
+    pub fn sky_color(dir: &Vec3) -> Color {
         let t = 0.5 * (dir.y + 1.0);
         return WHITE * t + LIGHT_BLUE * (1.0 - t);
     }
@@ -39,6 +40,12 @@ pub const LIGHT_BLUE: Color = Color {
     r: 0.5,
     g: 0.7,
     b: 1.0,
+};
+
+pub const GREY: Color = Color {
+    r: 0.5,
+    g: 0.5,
+    b: 0.5,
 };
 
 impl Mul<Color> for Color {

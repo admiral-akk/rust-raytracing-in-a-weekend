@@ -1,7 +1,7 @@
 use crate::{
     hittable::{hit_record::HitRecord, hittable::Hittable},
     material::material::Material,
-    Ray,
+    Color, Ray,
 };
 
 pub struct Object {
@@ -16,7 +16,20 @@ impl Object {
             material: material,
         }
     }
+
     pub fn hit(&self, ray: &Ray, hit_record: &mut HitRecord) {
         self.hitbox.hit(ray, hit_record);
+    }
+
+    pub fn scatter(
+        &self,
+        ray: &Ray,
+        hit_record: &HitRecord,
+        attenuation: &mut Color,
+        scattered: &mut Ray,
+    ) -> bool {
+        return self
+            .material
+            .scatter(ray, hit_record, attenuation, scattered);
     }
 }

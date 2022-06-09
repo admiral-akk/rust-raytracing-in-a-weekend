@@ -8,11 +8,11 @@ pub use crate::hittable::sphere::Sphere;
 pub use crate::material::color::Color;
 pub use crate::material::lambertian::Lambertian;
 pub use crate::math::ray::Ray;
-use crate::math::vector;
 pub use crate::math::vector::Vec3;
 pub use crate::scene::camera::Camera;
 use crate::scene::object::Object;
 pub use crate::scene::world::World;
+use crate::{material::color, math::vector};
 use rand::{thread_rng, Rng};
 use wasm_bindgen::prelude::*;
 
@@ -54,14 +54,14 @@ impl Display {
                 pos: vector::FORWARD,
                 radius: 0.5,
             }),
-            Box::new(Lambertian {}),
+            Box::new(Lambertian::new(color::GREY)),
         ));
         display.world.push(Object::new(
             Box::new(Sphere {
                 pos: vector::FORWARD + (vector::DOWN * 100.5),
                 radius: 100.0,
             }),
-            Box::new(Lambertian {}),
+            Box::new(Lambertian::new(color::GREY)),
         ));
         return display;
     }

@@ -1,5 +1,5 @@
 use crate::{
-    hittable::{hit_record, hit_record::HitRecord, hittable::Hittable},
+    hittable::{hit_record, hit_record::HitRecord},
     Ray,
 };
 
