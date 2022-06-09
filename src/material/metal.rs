@@ -11,12 +11,6 @@ impl Metal {
     pub const fn new(albedo: Color, fuzz: f32) -> Self {
         Self { albedo, fuzz }
     }
-
-    fn reflect(&self, ray: &mut Ray, hit_record: &HitRecord) {
-        ray.pos = hit_record.point;
-        ray.dir = ray.dir - hit_record.normal * 2.0 * (ray.dir * hit_record.normal)
-            + Vec3::random_unit() * self.fuzz;
-    }
 }
 
 impl Material for Metal {
@@ -29,7 +23,7 @@ impl Material for Metal {
     ) -> bool {
         *attenuation = self.albedo;
         *scattered = *ray;
-        self.reflect(scattered, hit_record);
+        self.reflect(scattered, hit_record, self.fuzz);
         return scattered.dir * hit_record.normal > 0.0;
     }
 }

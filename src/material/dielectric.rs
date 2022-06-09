@@ -39,7 +39,20 @@ impl Material for Dielectric {
     ) -> bool {
         *attenuation = color::WHITE;
         *scattered = *ray;
-        Dielectric::refract(scattered, hit_record, self.refraction_index);
+        let cos_theta = f32::min(f32::abs(ray.dir * hit_record.normal), 1.0);
+        let sin_theta = (1.0 - cos_theta * cos_theta).sqrt();
+
+        let mut refraction_ratio = self.refraction_index;
+        if ray.dir * hit_record.normal < 0.0 {
+            refraction_ratio = 1.0 / refraction_ratio;
+        }
+
+        let cannot_refract = refraction_ratio * sin_theta > 1.0;
+        if cannot_refract {
+            self.reflect(scattered, hit_record, 0.0);
+        } else {
+            Dielectric::refract(scattered, hit_record, self.refraction_index);
+        }
         return true;
     }
 }
