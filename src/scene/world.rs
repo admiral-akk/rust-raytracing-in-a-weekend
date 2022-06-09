@@ -21,20 +21,22 @@ impl World {
     }
 }
 
-impl Hittable for World {
-    fn hit(&self, ray: &Ray, hit_record: &mut HitRecord) {
-        hit_record.t = f32::INFINITY;
+impl<'a> World {
+    pub fn hit(&'a self, ray: &Ray) -> HitRecord<'a> {
+        let mut ret: HitRecord = hit_record::DEFAULT;
         let mut temp: HitRecord = hit_record::DEFAULT;
         for hittable in &self.objects {
             hittable.hit(ray, &mut temp);
             if !temp.hit() {
                 continue;
             }
-            if temp.t < hit_record.t {
-                hit_record.t = temp.t;
-                hit_record.normal = temp.normal;
-                hit_record.point = temp.point;
+            if temp.t < ret.t {
+                ret.t = temp.t;
+                ret.normal = temp.normal;
+                ret.point = temp.point;
+                ret.object = Some(hittable);
             }
         }
+        return ret;
     }
 }

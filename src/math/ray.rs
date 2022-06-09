@@ -13,6 +13,7 @@ impl Ray {
     pub fn project(&self, t: f32) -> Vec3 {
         return self.pos + self.dir * t;
     }
+
     fn generate_new_dir(normal: &Vec3) -> Vec3 {
         return ((Vec3::random_unit() - *normal).normalized() + *normal).normalized();
     }
@@ -21,8 +22,7 @@ impl Ray {
         if depth == 0 {
             return color::BLACK;
         }
-        let mut temp: HitRecord = hit_record::DEFAULT;
-        world.hit(&ray, &mut temp);
+        let temp: HitRecord = world.hit(&ray);
         if temp.hit() {
             ray.dir = Ray::generate_new_dir(&temp.normal);
             ray.pos = temp.point;
