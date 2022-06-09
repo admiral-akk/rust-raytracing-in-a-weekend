@@ -1,1 +1,1 @@
-trait Material {}
+pub trait Material {}
