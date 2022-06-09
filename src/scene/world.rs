@@ -4,7 +4,7 @@ use crate::{
 };
 
 pub struct World {
-    objects: Vec<Box<dyn Hittable>>,
+    objects: Vec<Object>,
 }
 
 impl World {
@@ -14,8 +14,8 @@ impl World {
         }
     }
 
-    pub fn push(&mut self, hittable: Box<dyn Hittable>) {
-        self.objects.push(hittable);
+    pub fn push(&mut self, object: Object) {
+        self.objects.push(object);
     }
 }
 
@@ -34,5 +34,17 @@ impl Hittable for World {
                 hit_record.point = temp.point;
             }
         }
+    }
+}
+pub struct Object {
+    hitbox: Box<dyn Hittable>,
+}
+
+impl Object {
+    pub fn new(hittable: Box<dyn Hittable>) -> Object {
+        Object { hitbox: hittable }
+    }
+    pub fn hit(&self, ray: &Ray, hit_record: &mut HitRecord) {
+        self.hitbox.hit(ray, hit_record);
     }
 }

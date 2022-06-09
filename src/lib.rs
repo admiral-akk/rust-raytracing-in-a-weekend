@@ -1,18 +1,16 @@
-mod camera;
 mod color;
 mod hittable;
 mod math;
+mod scene;
 mod utils;
-mod world;
-
-pub use crate::camera::Camera;
 
 pub use crate::color::Color;
 pub use crate::hittable::sphere::Sphere;
 pub use crate::math::ray::Ray;
-use crate::math::vector;
 pub use crate::math::vector::Vec3;
-pub use crate::world::World;
+pub use crate::scene::camera::Camera;
+pub use crate::scene::world::World;
+use crate::{math::vector, scene::world::Object};
 use rand::{thread_rng, Rng};
 use wasm_bindgen::prelude::*;
 
@@ -49,14 +47,14 @@ impl Display {
             camera: Camera::new((width as f32) / (height as f32)),
             world: World::new(),
         };
-        display.world.push(Box::new(Sphere {
+        display.world.push(Object::new(Box::new(Sphere {
             pos: vector::FORWARD,
             radius: 0.5,
-        }));
-        display.world.push(Box::new(Sphere {
+        })));
+        display.world.push(Object::new(Box::new(Sphere {
             pos: vector::FORWARD + (vector::DOWN * 100.5),
             radius: 100.0,
-        }));
+        })));
         return display;
     }
 
