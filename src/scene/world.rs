@@ -3,6 +3,8 @@ use crate::{
     Ray,
 };
 
+use super::object::Object;
+
 pub struct World {
     objects: Vec<Object>,
 }
@@ -34,17 +36,5 @@ impl Hittable for World {
                 hit_record.point = temp.point;
             }
         }
-    }
-}
-pub struct Object {
-    hitbox: Box<dyn Hittable>,
-}
-
-impl Object {
-    pub fn new(hittable: Box<dyn Hittable>) -> Object {
-        Object { hitbox: hittable }
-    }
-    pub fn hit(&self, ray: &Ray, hit_record: &mut HitRecord) {
-        self.hitbox.hit(ray, hit_record);
     }
 }

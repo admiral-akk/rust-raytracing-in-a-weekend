@@ -1,6 +1,6 @@
 use crate::{
-    color,
     hittable::{hit_record, hit_record::HitRecord, hittable::Hittable},
+    material::color,
     Color, Vec3, World,
 };
 #[derive(Debug, Copy, Clone, PartialEq)]
@@ -17,14 +17,14 @@ impl Ray {
     fn dir_to_color(dir: &Vec3) -> Color {
         let t = 0.5 * (dir.y + 1.0);
         return Color {
-            x: 1.0,
-            y: 1.0,
-            z: 1.0,
+            r: 1.0,
+            g: 1.0,
+            b: 1.0,
         } * t
             + Color {
-                x: 0.5,
-                y: 0.7,
-                z: 1.0,
+                r: 0.5,
+                g: 0.7,
+                b: 1.0,
             } * (1.0 - t);
     }
 

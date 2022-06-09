@@ -1,16 +1,17 @@
-mod color;
 mod hittable;
+mod material;
 mod math;
 mod scene;
 mod utils;
 
-pub use crate::color::Color;
 pub use crate::hittable::sphere::Sphere;
+pub use crate::material::color::Color;
 pub use crate::math::ray::Ray;
+use crate::math::vector;
 pub use crate::math::vector::Vec3;
 pub use crate::scene::camera::Camera;
+use crate::scene::object::Object;
 pub use crate::scene::world::World;
-use crate::{math::vector, scene::world::Object};
 use rand::{thread_rng, Rng};
 use wasm_bindgen::prelude::*;
 
@@ -64,9 +65,9 @@ impl Display {
         for y in 0..self.height {
             for x in 0..self.width {
                 let mut color = Color {
-                    x: 0.0,
-                    y: 0.0,
-                    z: 0.0,
+                    r: 0.0,
+                    g: 0.0,
+                    b: 0.0,
                 };
                 for _ in 0..self.sample_count {
                     color += self.camera.color(
