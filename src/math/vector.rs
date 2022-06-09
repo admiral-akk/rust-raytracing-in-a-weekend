@@ -9,31 +9,16 @@ pub struct Vec3 {
     pub z: f32,
 }
 
-pub const ZERO: Vec3 = Vec3 {
-    x: 0.0,
-    y: 0.0,
-    z: 0.0,
-};
-
-pub const FORWARD: Vec3 = Vec3 {
-    x: 0.0,
-    y: 0.0,
-    z: 1.0,
-};
-
-pub const RIGHT: Vec3 = Vec3 {
-    x: 1.0,
-    y: 0.0,
-    z: 0.0,
-};
-
-pub const DOWN: Vec3 = Vec3 {
-    x: 0.0,
-    y: 1.0,
-    z: 0.0,
-};
+pub const ZERO: Vec3 = Vec3::new(0.0, 0.0, 0.0);
+pub const FORWARD: Vec3 = Vec3::new(0.0, 0.0, 1.0);
+pub const RIGHT: Vec3 = Vec3::new(1.0, 0.0, 0.0);
+pub const DOWN: Vec3 = Vec3::new(0.0, 1.0, 0.0);
 
 impl Vec3 {
+    pub const fn new(x: f32, y: f32, z: f32) -> Vec3 {
+        Vec3 { x: x, y: y, z: z }
+    }
+
     pub fn normalized(&self) -> Vec3 {
         let norm = self.len_sq().sqrt();
         Vec3 {

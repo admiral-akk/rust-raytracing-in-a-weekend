@@ -50,17 +50,19 @@ impl Display {
             world: World::new(),
         };
         display.world.push(Object::new(
-            Box::new(Sphere {
-                pos: vector::FORWARD,
-                radius: 0.5,
-            }),
+            Box::new(Sphere::new(vector::FORWARD, 0.5)),
             Box::new(Lambertian::new(color::GREY)),
         ));
         display.world.push(Object::new(
-            Box::new(Sphere {
-                pos: vector::FORWARD + (vector::DOWN * 100.5),
-                radius: 100.0,
-            }),
+            Box::new(Sphere::new(vector::FORWARD + vector::RIGHT * 1.5, 0.5)),
+            Box::new(Lambertian::new(color::LIGHT_RED)),
+        ));
+        display.world.push(Object::new(
+            Box::new(Sphere::new(vector::FORWARD - vector::RIGHT * 1.5, 0.5)),
+            Box::new(Lambertian::new(color::WHITE)),
+        ));
+        display.world.push(Object::new(
+            Box::new(Sphere::new(vector::FORWARD + (vector::DOWN * 100.5), 100.0)),
             Box::new(Lambertian::new(color::GREY)),
         ));
         return display;

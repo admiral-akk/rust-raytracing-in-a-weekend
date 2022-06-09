@@ -7,6 +7,12 @@ pub struct Sphere {
     pub radius: f32,
 }
 
+impl Sphere {
+    pub const fn new(pos: Vec3, radius: f32) -> Self {
+        Self { pos, radius }
+    }
+}
+
 impl Hittable for Sphere {
     fn hit(&self, ray: &Ray, hit_record: &mut HitRecord) {
         let diff = self.pos - ray.pos;

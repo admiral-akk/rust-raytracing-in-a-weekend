@@ -10,6 +10,10 @@ pub struct Color {
 }
 
 impl Color {
+    pub const fn new(r: f32, g: f32, b: f32) -> Self {
+        Self { r, g, b }
+    }
+
     pub fn to_rgb(&self, iterations: f32) -> (u8, u8, u8) {
         (
             (256.0 * (self.r / iterations).sqrt()) as u8,
@@ -24,29 +28,11 @@ impl Color {
     }
 }
 
-pub const BLACK: Color = Color {
-    r: 0.0,
-    g: 0.0,
-    b: 0.0,
-};
-
-pub const WHITE: Color = Color {
-    r: 1.0,
-    g: 1.0,
-    b: 1.0,
-};
-
-pub const LIGHT_BLUE: Color = Color {
-    r: 0.5,
-    g: 0.7,
-    b: 1.0,
-};
-
-pub const GREY: Color = Color {
-    r: 0.5,
-    g: 0.5,
-    b: 0.5,
-};
+pub const BLACK: Color = Color::new(0.0, 0.0, 0.0);
+pub const WHITE: Color = Color::new(1.0, 1.0, 1.0);
+pub const LIGHT_BLUE: Color = Color::new(0.5, 0.7, 1.0);
+pub const LIGHT_RED: Color = Color::new(1.0, 0.7, 0.5);
+pub const GREY: Color = Color::new(0.5, 0.5, 0.5);
 
 impl Mul<Color> for Color {
     type Output = Color;
