@@ -1,4 +1,3 @@
-use super::vector;
 use crate::{
     color,
     hittable::{self, HitRecord, Hittable},
