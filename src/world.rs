@@ -1,6 +1,5 @@
 use crate::{
     hittable::{self, HitRecord, Hittable},
-    math::vector,
     Ray,
 };
 
@@ -26,6 +25,9 @@ impl Hittable for World {
         let mut temp: HitRecord = hittable::DEFAULT;
         for hittable in &self.objects {
             hittable.hit(ray, &mut temp);
+            if !temp.hit() {
+                continue;
+            }
             if temp.t < hit_record.t {
                 hit_record.t = temp.t;
                 hit_record.normal = temp.normal;

@@ -14,10 +14,7 @@ impl Hittable for Sphere {
 
         let b = -2.0 * (ray.dir * diff);
         let a = ray.dir * ray.dir;
-        let t = (-b + (b * b - 4.0 * a * c).sqrt()) / (2.0 * a);
-        if t < 0.0001 {
-            return;
-        }
+        let t = (-b - (b * b - 4.0 * a * c).sqrt()) / (2.0 * a);
         hit_record.t = t;
         hit_record.normal = (ray.project(t) - self.pos).normalized();
         hit_record.point = ray.project(t);

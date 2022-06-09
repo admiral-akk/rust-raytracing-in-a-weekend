@@ -33,6 +33,6 @@ impl Camera {
                 .normalized(),
         };
 
-        return Ray::color(&mut ray, world, 3);
+        return Ray::color(&mut ray, world, 10);
     }
 }

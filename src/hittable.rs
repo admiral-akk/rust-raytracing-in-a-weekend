@@ -20,6 +20,6 @@ pub const DEFAULT: HitRecord = HitRecord {
 
 impl HitRecord {
     pub fn hit(&self) -> bool {
-        self.t < f32::INFINITY
+        self.t < f32::INFINITY && self.t > 0.0001
     }
 }
