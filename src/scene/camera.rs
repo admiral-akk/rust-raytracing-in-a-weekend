@@ -29,12 +29,12 @@ impl Camera {
     pub fn color(&self, x: f32, y: f32, world: &World) -> Color {
         let view_x = x - 0.5;
         let view_y = y - 0.5;
+        let focal_center = self.focal_length * self.dir;
+        let x_delta = self.viewport_width * view_x * RIGHT;
+        let y_delta = self.viewport_height * view_y * DOWN;
         let mut ray = Ray {
             pos: self.pos,
-            dir: (self.dir * self.focal_length
-                + DOWN * self.viewport_height * view_y
-                + RIGHT * self.viewport_width * view_x)
-                .normalized(),
+            dir: (focal_center + y_delta + x_delta).normalized(),
         };
 
         return Ray::color(&mut ray, world, 10);
