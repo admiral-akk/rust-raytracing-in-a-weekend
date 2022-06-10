@@ -4,7 +4,7 @@ import { memory } from "rust-ray/rust_ray_bg";
 const width = 4 * 160;
 const height = 4 * 90;
 const sample_count = 2;
-const fov_angle = 90;
+const fov_angle = 20;
 
 const display = Display.new(width, height, sample_count, fov_angle);
 const canvas = document.getElementById("raytracing-canvas");

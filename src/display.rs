@@ -30,7 +30,7 @@ impl Display {
             camera: Camera::new(
                 (width as f32) / (height as f32),
                 fov_angle,
-                vector::ZERO,
+                vector::BACK + 2.0 * vector::UP + 2.0 * vector::LEFT,
                 vector::FORWARD,
             ),
             world: World::new(),
