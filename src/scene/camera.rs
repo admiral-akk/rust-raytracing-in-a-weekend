@@ -5,13 +5,9 @@ use crate::{
 
 pub struct Camera {
     pos: Vec3,
-    dir: Vec3,
     up: Vec3,
     right: Vec3,
     forward: Vec3,
-    focal_length: f32,
-    viewport_height: f32,
-    viewport_width: f32,
 }
 
 impl Camera {
@@ -23,13 +19,9 @@ impl Camera {
 
         Camera {
             pos: vector::ZERO,
-            dir: vector::FORWARD,
             up: h * vector::DOWN,
             right: w * vector::RIGHT,
             forward: focal_length * vector::FORWARD,
-            focal_length: 1.0,
-            viewport_height: h,
-            viewport_width: w,
         }
     }
 
