@@ -35,15 +35,15 @@ impl Display {
             Box::new(Dielectric::new(1.5)),
         ));
         display.world.push(Object::new(
-            Box::new(Sphere::new(vector::FORWARD + vector::RIGHT * 1.0, 0.5)),
+            Box::new(Sphere::new(vector::FORWARD + vector::RIGHT, 0.5)),
             Box::new(Metal::new(color::LIGHT_RED, 1.0)),
         ));
         display.world.push(Object::new(
-            Box::new(Sphere::new(vector::FORWARD - vector::RIGHT * 1.0, 0.5)),
+            Box::new(Sphere::new(vector::FORWARD + vector::LEFT, 0.5)),
             Box::new(Dielectric::new(1.5)),
         ));
         display.world.push(Object::new(
-            Box::new(Sphere::new(vector::FORWARD + (vector::DOWN * 100.5), 100.0)),
+            Box::new(Sphere::new(vector::FORWARD + 100.5 * vector::DOWN, 100.0)),
             Box::new(Lambertian::new(color::GREY)),
         ));
         return display;

@@ -6,7 +6,6 @@ use crate::{
 pub struct Camera {
     pos: Vec3,
     dir: Vec3,
-    up: Vec3,
     focal_length: f32,
     viewport_height: f32,
     viewport_width: f32,
@@ -19,7 +18,6 @@ impl Camera {
         Camera {
             pos: vector::ZERO,
             dir: vector::FORWARD,
-            up: vector::DOWN * -1.0,
             focal_length: 1.0,
             viewport_height: h,
             viewport_width: h * aspect_ratio,

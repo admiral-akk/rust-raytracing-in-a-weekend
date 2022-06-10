@@ -1,4 +1,4 @@
-use crate::{hittable::hit_record::HitRecord, Color, Ray, Vec3};
+use crate::{hittable::hit_record::HitRecord, Color, Ray};
 
 use super::material::Material;
 

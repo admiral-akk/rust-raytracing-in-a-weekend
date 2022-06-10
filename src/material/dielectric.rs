@@ -32,7 +32,7 @@ impl Dielectric {
     fn reflectance(cosine: f32, refraction_ratio: f32) -> f32 {
         let mut r0 = (1.0 - refraction_ratio) / (1.0 + refraction_ratio);
         r0 = r0 * r0;
-        return r0 + (1.0 - r0) * f32::powi((1.0 - cosine), 5);
+        return r0 + (1.0 - r0) * f32::powi(1.0 - cosine, 5);
     }
 }
 
