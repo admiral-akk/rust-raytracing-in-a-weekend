@@ -16,7 +16,7 @@ impl Camera {
         let h = 2.0 * f32::tan(rad_angle / 2.0);
         let w = h * aspect_ratio;
         let normalized_dir = (look_at - pos).normalized();
-        let up = vector::DOWN;
+        let up = vector::UP;
         let orthogonal_up = (up - (up * normalized_dir) * normalized_dir).normalized();
         let right = orthogonal_up.cross(&normalized_dir).normalized();
 
@@ -29,8 +29,8 @@ impl Camera {
     }
 
     pub fn color(&self, x: f32, y: f32, world: &World) -> Color {
-        let view_x = x - 0.5;
-        let view_y = y - 0.5;
+        let view_x = 0.5 - x;
+        let view_y = 0.5 - y;
         let focal_center = self.forward;
         let x_delta = view_x * self.right;
         let y_delta = view_y * self.up;

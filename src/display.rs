@@ -5,7 +5,7 @@ use crate::{
     material::{color, dielectric::Dielectric},
     math::vector,
     scene::object::Object,
-    utils, Camera, Color, Lambertian, Metal, Sphere, World,
+    utils, Camera, Color, Lambertian, Metal, Sphere, Vec3, World,
 };
 
 #[wasm_bindgen]
@@ -30,27 +30,16 @@ impl Display {
             camera: Camera::new(
                 (width as f32) / (height as f32),
                 fov_angle,
-                vector::BACK + 2.0 * vector::UP + 2.0 * vector::LEFT,
-                vector::FORWARD,
+                Vec3 {
+                    x: 13.0,
+                    y: 2.0,
+                    z: 3.0,
+                },
+                vector::ZERO,
             ),
             world: World::new(),
         };
-        display.world.push(Object::new(
-            Box::new(Sphere::new(vector::FORWARD, 0.5)),
-            Box::new(Dielectric::new(1.5)),
-        ));
-        display.world.push(Object::new(
-            Box::new(Sphere::new(vector::FORWARD + vector::RIGHT, 0.5)),
-            Box::new(Metal::new(color::LIGHT_RED, 1.0)),
-        ));
-        display.world.push(Object::new(
-            Box::new(Sphere::new(vector::FORWARD + vector::LEFT, 0.5)),
-            Box::new(Dielectric::new(1.5)),
-        ));
-        display.world.push(Object::new(
-            Box::new(Sphere::new(vector::FORWARD + 100.5 * vector::DOWN, 100.0)),
-            Box::new(Lambertian::new(color::GREY)),
-        ));
+        display.world.random_scene();
         return display;
     }
 

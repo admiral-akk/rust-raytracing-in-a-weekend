@@ -22,7 +22,7 @@ impl Material for Metal {
         scattered: &mut Ray,
     ) -> bool {
         *attenuation = self.albedo;
-        *scattered = *ray;
+        *scattered = Ray::new(ray.pos, ray.dir);
         self.reflect(scattered, hit_record, self.fuzz);
         return scattered.dir * hit_record.normal > 0.0;
     }

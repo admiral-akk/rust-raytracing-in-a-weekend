@@ -45,7 +45,10 @@ impl Material for Dielectric {
         scattered: &mut Ray,
     ) -> bool {
         *attenuation = color::WHITE;
-        *scattered = *ray;
+        *scattered = Ray {
+            pos: ray.pos,
+            dir: ray.dir,
+        };
         let cos_theta = f32::min(f32::abs(ray.dir * hit_record.normal), 1.0);
         let sin_theta = (1.0 - cos_theta * cos_theta).sqrt();
 

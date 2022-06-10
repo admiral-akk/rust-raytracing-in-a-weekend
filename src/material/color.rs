@@ -1,5 +1,7 @@
 use std::ops::{Add, AddAssign, Mul};
 
+use rand::{thread_rng, Rng};
+
 use crate::Vec3;
 
 #[derive(Debug, Copy, Clone, PartialEq)]
@@ -25,6 +27,19 @@ impl Color {
     pub fn sky_color(dir: &Vec3) -> Color {
         let t = 0.5 * (dir.y + 1.0);
         return t * WHITE + (1.0 - t) * LIGHT_BLUE;
+    }
+
+    pub fn random() -> Color {
+        return Color::random_range(0.0, 1.0);
+    }
+
+    pub fn random_range(min: f32, max: f32) -> Color {
+        let mut rng = thread_rng();
+        return Color {
+            r: rng.gen_range(min..=max),
+            g: rng.gen_range(min..=max),
+            b: rng.gen_range(min..=max),
+        };
     }
 }
 
