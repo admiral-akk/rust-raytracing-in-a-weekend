@@ -40,14 +40,14 @@ pub struct Display {
 
 #[wasm_bindgen]
 impl Display {
-    pub fn new(width: u32, height: u32, sample_count: u32) -> Display {
+    pub fn new(width: u32, height: u32, sample_count: u32, fov_angle: f32) -> Display {
         utils::set_panic_hook();
         let mut display = Display {
             width: width,
             height: height,
             pixels: vec![0; (3 * width * height) as usize],
             sample_count: sample_count,
-            camera: Camera::new((width as f32) / (height as f32)),
+            camera: Camera::new((width as f32) / (height as f32), fov_angle),
             world: World::new(),
         };
         display.world.push(Object::new(

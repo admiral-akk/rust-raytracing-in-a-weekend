@@ -21,12 +21,12 @@ impl Material for Lambertian {
         scattered: &mut Ray,
     ) -> bool {
         let mut scatter_dir = hit_record.normal + Vec3::random_unit();
-        if scatter_dir.len_sq() < 0.00001 {
+        if scatter_dir.length_squared() < 0.00001 {
             scatter_dir = hit_record.normal;
         }
         *scattered = Ray {
             pos: hit_record.point,
-            dir: scatter_dir,
+            dir: scatter_dir.normalized(),
         };
         *attenuation = self.albedo;
         return true;

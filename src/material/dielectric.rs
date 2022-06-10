@@ -20,11 +20,11 @@ impl Dielectric {
             refraction_ratio = 1.0 / refraction_ratio;
         }
         if normal * dir > 0.0 {
-            normal = normal * -1.0;
+            normal = -normal;
         }
         let cos_theta = f32::min(f32::abs(incidence), 1.0);
-        let r_out_perp = (dir + normal * cos_theta) * refraction_ratio;
-        let r_out_parallel = normal * -(f32::abs(1.0 - r_out_perp.len_sq())).sqrt();
+        let r_out_perp = refraction_ratio * (dir + cos_theta * normal);
+        let r_out_parallel = -f32::abs(1.0 - r_out_perp.length_squared()).sqrt() * normal;
         ray.pos = hit_record.point;
         ray.dir = (r_out_perp + r_out_parallel).normalized();
     }

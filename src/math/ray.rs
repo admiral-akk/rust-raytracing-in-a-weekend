@@ -7,7 +7,7 @@ pub struct Ray {
 
 impl Ray {
     pub fn project(&self, t: f32) -> Vec3 {
-        return self.pos + self.dir * t;
+        return self.pos + t * self.dir;
     }
 
     pub fn color(ray: &mut Ray, world: &World, depth: u32) -> Color {

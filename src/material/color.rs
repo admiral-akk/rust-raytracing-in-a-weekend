@@ -24,7 +24,7 @@ impl Color {
 
     pub fn sky_color(dir: &Vec3) -> Color {
         let t = 0.5 * (dir.y + 1.0);
-        return WHITE * t + LIGHT_BLUE * (1.0 - t);
+        return t * WHITE + (1.0 - t) * LIGHT_BLUE;
     }
 }
 
@@ -43,6 +43,17 @@ impl Mul<Color> for Color {
             g: self.g * other.g,
             b: self.b * other.b,
         };
+    }
+}
+impl Mul<Color> for f32 {
+    type Output = Color;
+
+    fn mul(self, other: Color) -> Color {
+        Color {
+            r: self * other.r,
+            g: self * other.g,
+            b: self * other.b,
+        }
     }
 }
 
