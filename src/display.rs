@@ -27,7 +27,12 @@ impl Display {
             height: height,
             pixels: vec![0; (3 * width * height) as usize],
             sample_count: sample_count,
-            camera: Camera::new((width as f32) / (height as f32), fov_angle),
+            camera: Camera::new(
+                (width as f32) / (height as f32),
+                fov_angle,
+                vector::ZERO,
+                vector::FORWARD,
+            ),
             world: World::new(),
         };
         display.world.push(Object::new(

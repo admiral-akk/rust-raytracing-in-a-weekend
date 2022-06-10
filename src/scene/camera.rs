@@ -11,17 +11,19 @@ pub struct Camera {
 }
 
 impl Camera {
-    pub fn new(aspect_ratio: f32, vertical_fov_degrees: f32) -> Camera {
+    pub fn new(aspect_ratio: f32, vertical_fov_degrees: f32, pos: Vec3, dir: Vec3) -> Camera {
         let rad_angle = std::f32::consts::PI * vertical_fov_degrees / 180.0;
         let h = 2.0 * f32::tan(rad_angle / 2.0);
         let w = h * aspect_ratio;
-        let focal_length = 1.0;
+        let up = vector::DOWN;
+        let orthogonal_up = (up - (up * dir) * dir).normalized();
+        let right = orthogonal_up.cross(&dir).normalized();
 
         Camera {
-            pos: vector::ZERO,
-            up: h * vector::DOWN,
-            right: w * vector::RIGHT,
-            forward: focal_length * vector::FORWARD,
+            pos: pos,
+            up: h * orthogonal_up,
+            right: w * right,
+            forward: dir,
         }
     }
 
