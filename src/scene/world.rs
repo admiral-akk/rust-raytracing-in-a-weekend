@@ -23,7 +23,29 @@ impl World {
     pub fn push(&mut self, object: Object) {
         self.objects.push(object);
     }
+}
 
+impl<'a> World {
+    pub fn hit(&'a self, ray: &Ray) -> HitRecord<'a> {
+        let mut ret: HitRecord = hit_record::DEFAULT;
+        let mut temp: HitRecord = hit_record::DEFAULT;
+        for hittable in &self.objects {
+            hittable.hit(ray, &mut temp);
+            if !temp.hit() {
+                continue;
+            }
+            if temp.t < ret.t {
+                ret.t = temp.t;
+                ret.normal = temp.normal;
+                ret.point = temp.point;
+                ret.object = Some(hittable);
+            }
+        }
+        return ret;
+    }
+}
+
+impl World {
     pub fn random_scene(&mut self, range: i32) {
         let mut rng = thread_rng();
 
@@ -104,25 +126,5 @@ impl World {
                 0.0,
             )),
         ));
-    }
-}
-
-impl<'a> World {
-    pub fn hit(&'a self, ray: &Ray) -> HitRecord<'a> {
-        let mut ret: HitRecord = hit_record::DEFAULT;
-        let mut temp: HitRecord = hit_record::DEFAULT;
-        for hittable in &self.objects {
-            hittable.hit(ray, &mut temp);
-            if !temp.hit() {
-                continue;
-            }
-            if temp.t < ret.t {
-                ret.t = temp.t;
-                ret.normal = temp.normal;
-                ret.point = temp.point;
-                ret.object = Some(hittable);
-            }
-        }
-        return ret;
     }
 }
