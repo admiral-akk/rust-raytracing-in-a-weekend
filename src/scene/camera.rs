@@ -1,7 +1,4 @@
-use crate::{
-    math::vector::{self, DOWN, RIGHT, UP},
-    Color, Ray, Vec3, World,
-};
+use crate::{math::vector, Color, Ray, Vec3, World};
 
 pub struct Camera {
     pos: Vec3,
@@ -17,7 +14,7 @@ impl Camera {
         let w = h * aspect_ratio;
         let normalized_dir = (look_at - pos).normalized();
         let up = vector::UP;
-        let orthogonal_up = (up - (up * normalized_dir) * normalized_dir).normalized();
+        let orthogonal_up = (up - (&up * &normalized_dir) * normalized_dir).normalized();
         let right = orthogonal_up.cross(&normalized_dir).normalized();
 
         Camera {

@@ -1,18 +1,18 @@
 use crate::{
     hittable::{hit_record::HitRecord, hittable::Hittable},
     material::material::Material,
-    Color, Ray,
+    Color, Ray, Sphere,
 };
 
 pub struct Object {
-    hitbox: Box<dyn Hittable>,
+    hitbox: Sphere,
     material: Box<dyn Material>,
 }
 
 impl Object {
-    pub fn new(hittable: Box<dyn Hittable>, material: Box<dyn Material>) -> Object {
+    pub fn new(hittable: Box<Sphere>, material: Box<dyn Material>) -> Object {
         Object {
-            hitbox: hittable,
+            hitbox: *hittable,
             material: material,
         }
     }

@@ -9,5 +9,5 @@
         "{,**/}README*": true,
         "{,**/}package-lock*": true,
     },
-    //"files.exclude": {}
+    "files.exclude": {}
 }

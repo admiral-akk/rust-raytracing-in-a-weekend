@@ -24,6 +24,6 @@ impl Material for Metal {
         *attenuation = self.albedo;
         *scattered = Ray::new(ray.pos, ray.dir);
         self.reflect(scattered, hit_record, self.fuzz);
-        return scattered.dir * hit_record.normal > 0.0;
+        return &scattered.dir * &hit_record.normal > 0.0;
     }
 }

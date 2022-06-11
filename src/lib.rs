@@ -1,10 +1,11 @@
-mod display;
+pub mod display;
 mod hittable;
 mod material;
 mod math;
 mod scene;
 mod utils;
 
+pub use crate::display::Display;
 pub use crate::hittable::sphere::Sphere;
 pub use crate::material::color::Color;
 pub use crate::material::lambertian::Lambertian;

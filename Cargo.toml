@@ -6,6 +6,12 @@ edition = "2018"
 
 [lib]
 crate-type = ["cdylib", "rlib"]
+path = "src/lib.rs"
+
+[[bin]]
+name = "rust-ray"
+path = "src/main.rs"
+
 
 [features]
 default = ["console_error_panic_hook"]
@@ -31,7 +37,7 @@ wee_alloc = { version = "0.4.5", optional = true }
 [dev-dependencies]
 wasm-bindgen-test = "0.3.13"
 
-[profile.release]
-debug = true
+[profile.dev]
+opt-level = 3
 [package.metadata.wasm-pack.profile.release]
-wasm-opt = ['-O4', '-g']
+wasm-opt = ['-O4']

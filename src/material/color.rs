@@ -46,7 +46,6 @@ impl Color {
 pub const BLACK: Color = Color::new(0.0, 0.0, 0.0);
 pub const WHITE: Color = Color::new(1.0, 1.0, 1.0);
 pub const LIGHT_BLUE: Color = Color::new(0.5, 0.7, 1.0);
-pub const LIGHT_RED: Color = Color::new(1.0, 0.7, 0.5);
 pub const GREY: Color = Color::new(0.5, 0.5, 0.5);
 
 impl Mul<Color> for Color {

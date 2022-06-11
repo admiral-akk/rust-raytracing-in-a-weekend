@@ -16,13 +16,18 @@ impl Sphere {
 impl Hittable for Sphere {
     fn hit(&self, ray: &Ray, hit_record: &mut HitRecord) {
         let diff = self.pos - ray.pos;
-        let c = diff * diff - self.radius * self.radius;
+        let c = &diff * &diff - self.radius * self.radius;
 
-        let b = -2.0 * (ray.dir * diff);
-        let a = ray.dir * ray.dir;
-        let mut t = (-b - (b * b - 4.0 * a * c).sqrt()) / (2.0 * a);
+        let b = -(&ray.dir * &diff);
+        let a = &ray.dir * &ray.dir;
+        let dis = b * b - a * c;
+        if dis < 0.0 {
+            return;
+        }
+        let discriminant = dis.sqrt();
+        let mut t = -(discriminant + b) / a;
         if t < 0.001 {
-            t = (-b + (b * b - 4.0 * a * c).sqrt()) / (2.0 * a);
+            t = (discriminant - b) / a;
         }
         hit_record.t = t;
         hit_record.point = ray.project(t);

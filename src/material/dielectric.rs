@@ -15,11 +15,11 @@ impl Dielectric {
         let mut normal = hit_record.normal.normalized();
         let dir = ray.dir.normalized();
         let mut refraction_ratio = refraction_index;
-        let incidence = dir * normal;
+        let incidence = &dir * &normal;
         if incidence < 0.0 {
             refraction_ratio = 1.0 / refraction_ratio;
         }
-        if normal * dir > 0.0 {
+        if &normal * &dir > 0.0 {
             normal = -normal;
         }
         let cos_theta = f32::min(f32::abs(incidence), 1.0);
@@ -49,11 +49,11 @@ impl Material for Dielectric {
             pos: ray.pos,
             dir: ray.dir,
         };
-        let cos_theta = f32::min(f32::abs(ray.dir * hit_record.normal), 1.0);
+        let cos_theta = f32::min(f32::abs(&ray.dir * &hit_record.normal), 1.0);
         let sin_theta = (1.0 - cos_theta * cos_theta).sqrt();
 
         let mut refraction_ratio = self.refraction_index;
-        if ray.dir * hit_record.normal < 0.0 {
+        if &ray.dir * &hit_record.normal < 0.0 {
             refraction_ratio = 1.0 / refraction_ratio;
         }
 

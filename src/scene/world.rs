@@ -24,7 +24,7 @@ impl World {
         self.objects.push(object);
     }
 
-    pub fn random_scene(&mut self) {
+    pub fn random_scene(&mut self, range: i32) {
         let mut rng = thread_rng();
 
         self.push(Object::new(
@@ -32,8 +32,8 @@ impl World {
             Box::new(Lambertian::new(color::GREY)),
         ));
 
-        for a in -2..2 {
-            for b in -2..2 {
+        for a in -range..range {
+            for b in -range..range {
                 let center = Vec3 {
                     x: (a as f32) + 0.9 * rng.gen_range(0.0..=1.0),
                     y: 0.2,
@@ -42,12 +42,12 @@ impl World {
                 let hit_box = Sphere::new(center, 0.2);
 
                 let choose_mat = rng.gen_range(0.0..=1.0);
-                if (choose_mat < 0.8) {
+                if choose_mat < 0.8 {
                     // diffuse
                     let albedo = Color::random() * Color::random();
                     let lambertian = Lambertian::new(albedo);
                     self.push(Object::new(Box::new(hit_box), Box::new(lambertian)));
-                } else if (choose_mat < 0.95) {
+                } else if choose_mat < 0.95 {
                     // metal
                     let albedo = Color::random_range(0.5, 1.0);
                     let fuzz = rng.gen_range(0.0..=0.5);
