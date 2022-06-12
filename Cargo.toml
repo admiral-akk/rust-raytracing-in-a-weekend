@@ -41,6 +41,7 @@ wasm-bindgen-test = "0.3.13"
 opt-level = 3
 debug = 1
 [profile.test]
+debug = 1
 opt-level = 3
 [profile.release]
 debug = 1

@@ -18,22 +18,27 @@ impl Sphere {
 
 impl Hittable for Sphere {
     // This uses the quadratic equation. a == 1, since the ray.dir is normalized.
-    fn hit(&self, ray: &Ray, hit_record: &mut HitRecord) {
+    fn hit(&self, ray: &Ray) -> f32 {
         let diff = &self.pos - &ray.pos;
         let c = &diff * &diff - self.radius_sq;
 
         let b = -(&ray.dir * &diff);
         let dis = b * b - c;
         if dis < 0.0 {
-            return;
+            return f32::INFINITY;
         }
         let discriminant = dis.sqrt();
         let mut t = -discriminant - b;
         if t < 0.001 {
             t = discriminant - b;
+            if t < 0.001 {
+                return f32::INFINITY;
+            }
         }
-        hit_record.t = t;
-        hit_record.point = ray.project(t);
-        hit_record.normal = (hit_record.point - self.pos).normalized();
+        return t;
+    }
+
+    fn hit_normal(&self, _ray: &Ray, hit_point: &Vec3) -> Vec3 {
+        return (hit_point - &self.pos).normalized();
     }
 }

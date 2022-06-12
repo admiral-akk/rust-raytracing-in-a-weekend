@@ -1,7 +1,7 @@
 use rand::{thread_rng, Rng};
 
 use crate::{
-    hittable::{hit_record, hit_record::HitRecord},
+    hittable::{hit_record, hit_record::HitRecord, hittable::Hittable},
     material::{color, dielectric::Dielectric},
     math::vector,
     Color, Lambertian, Metal, Ray, Sphere, Vec3,
@@ -23,23 +23,25 @@ impl World {
     pub fn push(&mut self, object: Object) {
         self.objects.push(object);
     }
+
+    // this computes a heap-like structure for finding collisions; this allows us to avoid randomly jumping through memory.
+    pub fn compute_bounding_box() {}
 }
 
 impl<'a> World {
     pub fn hit(&'a self, ray: &Ray) -> HitRecord<'a> {
         let mut ret: HitRecord = hit_record::DEFAULT;
-        let mut temp: HitRecord = hit_record::DEFAULT;
         for hittable in &self.objects {
-            hittable.hit(ray, &mut temp);
-            if !temp.hit() {
+            let t = hittable.hit(ray);
+            if t >= ret.t {
                 continue;
             }
-            if temp.t < ret.t {
-                ret.t = temp.t;
-                ret.normal = temp.normal;
-                ret.point = temp.point;
-                ret.object = Some(hittable);
-            }
+            ret.t = t;
+            ret.object = Some(hittable);
+        }
+        if ret.hit() {
+            ret.point = ray.project(ret.t);
+            ret.normal = ret.object.unwrap().hit_normal(ray, &ret.point);
         }
         return ret;
     }
