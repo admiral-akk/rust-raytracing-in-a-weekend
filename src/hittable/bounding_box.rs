@@ -1,9 +1,6 @@
 use crate::{math::vector, Ray, Vec3};
 
-use super::{
-    hit_record::{self, HitRecord},
-    hittable::Hittable,
-};
+use super::hittable::Hittable;
 
 pub struct BoundingBox {
     min: Vec3,
