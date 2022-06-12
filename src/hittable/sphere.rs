@@ -1,6 +1,6 @@
 use crate::{Ray, Vec3};
 
-use super::{hit_record::HitRecord, hittable::Hittable};
+use super::hittable::Hittable;
 
 pub struct Sphere {
     pos: Vec3,

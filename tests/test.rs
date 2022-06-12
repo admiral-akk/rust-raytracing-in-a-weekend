@@ -2,7 +2,7 @@
 #[cfg(test)]
 
 mod tests {
-    use rust_ray::{Display, Ray, Vec3, World};
+    use rust_ray::{BoundingBox, Display, Hittable, Ray, Vec3, World};
 
     #[test]
     fn tiny() {
@@ -31,5 +31,22 @@ mod tests {
         for _i in 0..2000000 {
             world.hit(&ray);
         }
+    }
+    #[test]
+    fn bounding_box() {
+        let bb = BoundingBox::new(Vec3::new(1.0, 1.0, 1.0), Vec3::new(2.0, 2.0, 2.0));
+        let miss = Ray::new(Vec3::new(0.0, 0.0, 0.0), Vec3::new(0.0, 0.0, 1.0));
+
+        assert_eq!(bb.hit(&miss) == f32::INFINITY, true);
+        let miss = Ray::new(Vec3::new(1.0, 1.0, 0.0), Vec3::new(0.0, 0.0, -1.0));
+
+        assert_eq!(bb.hit(&miss) == f32::INFINITY, true);
+
+        let hit = Ray::new(Vec3::new(1.0, 1.0, 0.0), Vec3::new(0.0, 0.0, 1.0));
+
+        assert_eq!(bb.hit(&hit) < f32::INFINITY, true);
+        let hit = Ray::new(Vec3::new(0.0, 0.0, 0.0), Vec3::new(1.0, 1.0, 1.0));
+
+        assert_eq!(bb.hit(&hit) < f32::INFINITY, true);
     }
 }

@@ -7,6 +7,8 @@ mod scene;
 mod utils;
 
 pub use crate::display::Display;
+pub use crate::hittable::bounding_box::BoundingBox;
+pub use crate::hittable::hittable::Hittable;
 pub use crate::hittable::sphere::Sphere;
 pub use crate::material::color::Color;
 pub use crate::material::lambertian::Lambertian;
