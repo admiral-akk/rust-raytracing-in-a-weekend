@@ -1,6 +1,6 @@
 use std::ops::{Add, AddAssign, Mul, Neg, Sub};
 
-use rand::{thread_rng, Rng};
+use crate::Rand;
 
 #[derive(Debug, Copy, Clone, PartialEq)]
 pub struct Vec3 {
@@ -35,18 +35,8 @@ impl Vec3 {
         return self.x * self.x + self.y * self.y + self.z * self.z;
     }
 
-    pub fn random_unit() -> Vec3 {
-        let mut rng = thread_rng();
-        loop {
-            let v = Vec3 {
-                x: rng.gen_range(-1.0..=1.0),
-                y: rng.gen_range(-1.0..=1.0),
-                z: rng.gen_range(-1.0..=1.0),
-            };
-            if v.length_squared() <= 1.0 {
-                return v.normalized();
-            }
-        }
+    pub fn random_unit(rand: &mut Rand) -> Vec3 {
+        return rand.random_unit();
     }
 
     pub fn cross(&self, other: &Vec3) -> Vec3 {

@@ -1,4 +1,4 @@
-use crate::{hittable::hit_record::HitRecord, Color, Ray, Vec3};
+use crate::{hittable::hit_record::HitRecord, Color, Rand, Ray, Vec3};
 
 use super::material::Material;
 
@@ -16,11 +16,12 @@ impl Material for Lambertian {
     fn scatter(
         &self,
         _ray: &Ray,
+        rand: &mut Rand,
         hit_record: &HitRecord,
         attenuation: &mut Color,
         scattered: &mut Ray,
     ) -> bool {
-        let mut scatter_dir = hit_record.normal + Vec3::random_unit();
+        let mut scatter_dir = hit_record.normal + Vec3::random_unit(rand);
         if scatter_dir.length_squared() < 0.00001 {
             scatter_dir = hit_record.normal;
         }

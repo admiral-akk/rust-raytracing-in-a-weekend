@@ -1,4 +1,4 @@
-use crate::{hittable::hit_record::HitRecord, Color, Ray};
+use crate::{hittable::hit_record::HitRecord, Color, Rand, Ray};
 
 use super::material::Material;
 
@@ -17,13 +17,14 @@ impl Material for Metal {
     fn scatter(
         &self,
         ray: &Ray,
+        rand: &mut Rand,
         hit_record: &HitRecord,
         attenuation: &mut Color,
         scattered: &mut Ray,
     ) -> bool {
         *attenuation = self.albedo;
         *scattered = Ray::new(ray.pos, ray.dir);
-        self.reflect(scattered, hit_record, self.fuzz);
+        self.reflect(rand, scattered, hit_record, self.fuzz);
         return &scattered.dir * &hit_record.normal > 0.0;
     }
 }

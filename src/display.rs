@@ -1,7 +1,6 @@
-use rand::{thread_rng, Rng};
 use wasm_bindgen::prelude::wasm_bindgen;
 
-use crate::{math::vector, utils, Camera, Color, Vec3, World};
+use crate::{math::vector, utils, Camera, Color, Rand, Vec3, World};
 
 #[wasm_bindgen]
 pub struct Display {
@@ -11,6 +10,7 @@ pub struct Display {
     sample_count: u32,
     camera: Camera,
     world: World,
+    rand: Rand,
 }
 
 #[wasm_bindgen]
@@ -33,13 +33,13 @@ impl Display {
                 vector::ZERO,
             ),
             world: World::new(),
+            rand: Rand::new(859),
         };
-        display.world.random_scene(0);
+        display.world.random_scene(11);
         return display;
     }
     pub fn tick(&mut self, _time: u32) -> () {
         let time = 0;
-        let mut rng = thread_rng();
         for y in 0..self.height {
             for x in 0..self.width {
                 let mut color = Color {
@@ -49,9 +49,10 @@ impl Display {
                 };
                 for _ in 0..self.sample_count {
                     color += self.camera.color(
-                        ((x as f32) + rng.gen_range(0.0..=1.0)) / (self.width as f32),
-                        ((y as f32) + rng.gen_range(0.0..=1.0)) / (self.height as f32),
+                        ((x as f32) + self.rand.rand()) / (self.width as f32),
+                        ((y as f32) + self.rand.rand()) / (self.height as f32),
                         &self.world,
+                        &mut self.rand,
                     );
                 }
 

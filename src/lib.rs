@@ -2,6 +2,7 @@ pub mod display;
 mod hittable;
 mod material;
 mod math;
+mod rand;
 mod scene;
 mod utils;
 
@@ -12,6 +13,7 @@ pub use crate::material::lambertian::Lambertian;
 pub use crate::material::metal::Metal;
 pub use crate::math::ray::Ray;
 pub use crate::math::vector::Vec3;
+pub use crate::rand::rand::Rand;
 pub use crate::scene::camera::Camera;
 pub use crate::scene::world::World;
 use wasm_bindgen::prelude::*;

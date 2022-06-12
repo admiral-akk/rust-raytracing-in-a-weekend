@@ -1,8 +1,8 @@
 import { Display } from "rust-ray";
 import { memory } from "rust-ray/rust_ray_bg";
 
-const width = 4 * 160;
-const height = 4 * 90;
+const width = 1280;
+const height = 720;
 const sample_count = 10;
 const fov_angle = 20;
 

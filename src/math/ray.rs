@@ -1,4 +1,4 @@
-use crate::{hittable::hit_record::HitRecord, material::color, Color, Vec3, World};
+use crate::{hittable::hit_record::HitRecord, material::color, Color, Rand, Vec3, World};
 
 pub struct Ray {
     pub pos: Vec3,
@@ -14,7 +14,7 @@ impl Ray {
         return self.pos + t * self.dir;
     }
 
-    pub fn color(ray: &mut Ray, world: &World, depth: u32) -> Color {
+    pub fn color(ray: &mut Ray, world: &World, rand: &mut Rand, depth: u32) -> Color {
         if depth == 0 {
             return color::BLACK;
         }
@@ -24,11 +24,12 @@ impl Ray {
             let mut attenuation = color::BLACK;
             if hit_record.object.unwrap().scatter(
                 ray,
+                rand,
                 &hit_record,
                 &mut attenuation,
                 &mut scattered,
             ) {
-                return attenuation * Ray::color(&mut scattered, world, depth - 1);
+                return attenuation * Ray::color(&mut scattered, world, rand, depth - 1);
             }
             return color::BLACK;
         } else {

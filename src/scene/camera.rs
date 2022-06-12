@@ -1,4 +1,4 @@
-use crate::{math::vector, Color, Ray, Vec3, World};
+use crate::{math::vector, Color, Rand, Ray, Vec3, World};
 
 pub struct Camera {
     pos: Vec3,
@@ -25,7 +25,7 @@ impl Camera {
         }
     }
 
-    pub fn color(&self, x: f32, y: f32, world: &World) -> Color {
+    pub fn color(&self, x: f32, y: f32, world: &World, rand: &mut Rand) -> Color {
         let view_x = 0.5 - x;
         let view_y = 0.5 - y;
         let focal_center = self.forward;
@@ -36,6 +36,6 @@ impl Camera {
             dir: (focal_center + y_delta + x_delta).normalized(),
         };
 
-        return Ray::color(&mut ray, world, 10);
+        return Ray::color(&mut ray, world, rand, 10);
     }
 }

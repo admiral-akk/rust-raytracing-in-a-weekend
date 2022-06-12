@@ -1,7 +1,6 @@
 use super::{color, material::Material};
-use crate::{hittable::hit_record::HitRecord, Color, Ray};
+use crate::{hittable::hit_record::HitRecord, Color, Rand, Ray};
 
-use rand::{thread_rng, Rng};
 pub struct Dielectric {
     refraction_index: f32,
 }
@@ -40,6 +39,7 @@ impl Material for Dielectric {
     fn scatter(
         &self,
         ray: &Ray,
+        rand: &mut Rand,
         hit_record: &HitRecord,
         attenuation: &mut Color,
         scattered: &mut Ray,
@@ -56,13 +56,9 @@ impl Material for Dielectric {
         if &ray.dir * &hit_record.normal < 0.0 {
             refraction_ratio = 1.0 / refraction_ratio;
         }
-
-        let mut rng = thread_rng();
         let cannot_refract = refraction_ratio * sin_theta > 1.0;
-        if cannot_refract
-            || Dielectric::reflectance(cos_theta, refraction_ratio) > rng.gen_range(0.0..=1.0)
-        {
-            self.reflect(scattered, hit_record, 0.0);
+        if cannot_refract || Dielectric::reflectance(cos_theta, refraction_ratio) > rand.rand() {
+            self.reflect(rand, scattered, hit_record, 0.0);
         } else {
             Dielectric::refract(scattered, hit_record, self.refraction_index);
         }

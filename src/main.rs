@@ -1,5 +1,5 @@
 use rust_ray::Display;
 fn main() {
-    let mut display = Display::new(1500, 1000, 1, 20.0);
+    let mut display = Display::new(1280, 720, 10, 20.0);
     display.tick(0);
 }
