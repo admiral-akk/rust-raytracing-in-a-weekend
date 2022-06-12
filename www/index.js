@@ -3,7 +3,7 @@ import { memory } from "rust-ray/rust_ray_bg";
 
 const width = 1280;
 const height = 720;
-const sample_count = 10;
+const sample_count = 1;
 const fov_angle = 20;
 
 const display = Display.new(width, height, sample_count, fov_angle);
