@@ -23,9 +23,6 @@ impl World {
     pub fn push(&mut self, object: Object) {
         self.objects.push(object);
     }
-
-    // this computes a heap-like structure for finding collisions; this allows us to avoid randomly jumping through memory.
-    pub fn compute_bounding_box() {}
 }
 
 impl<'a> World {

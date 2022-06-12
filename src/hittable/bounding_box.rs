@@ -1,6 +1,9 @@
-use crate::{math::vector, Vec3};
+use crate::{math::vector, Ray, Vec3};
 
-use super::hittable::Hittable;
+use super::{
+    hit_record::{self, HitRecord},
+    hittable::Hittable,
+};
 
 pub struct BoundingBox {
     min: Vec3,
@@ -30,7 +33,7 @@ impl BoundingBox {
 }
 
 impl Hittable for BoundingBox {
-    fn hit(&self, ray: &crate::Ray) -> f32 {
+    fn hit(&self, ray: &Ray) -> f32 {
         let x_range = BoundingBox::time_range(ray.dir.x, ray.pos.x, self.min.x, self.max.x);
         let y_range = BoundingBox::time_range(ray.dir.y, ray.pos.y, self.min.y, self.max.y);
         let z_range = BoundingBox::time_range(ray.dir.z, ray.pos.z, self.min.z, self.max.z);
@@ -44,5 +47,9 @@ impl Hittable for BoundingBox {
 
     fn hit_normal(&self, ray: &crate::Ray, hit_point: &Vec3) -> Vec3 {
         return vector::ZERO;
+    }
+
+    fn bounds(&self) -> BoundingBox {
+        BoundingBox::new(self.min, self.max)
     }
 }

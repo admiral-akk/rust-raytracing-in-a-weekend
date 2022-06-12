@@ -10,6 +10,7 @@ pub struct Vec3 {
 }
 
 pub const ZERO: Vec3 = Vec3::new(0.0, 0.0, 0.0);
+pub const ONE: Vec3 = Vec3::new(1.0, 1.0, 1.0);
 pub const DOWN: Vec3 = Vec3::new(0.0, -1.0, 0.0);
 pub const UP: Vec3 = Vec3::new(0.0, 1.0, 0.0);
 

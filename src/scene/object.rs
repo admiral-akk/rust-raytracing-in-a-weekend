@@ -1,7 +1,7 @@
 use crate::{
     hittable::{hit_record::HitRecord, hittable::Hittable},
     material::material::Material,
-    Color, Rand, Ray, Vec3,
+    BoundingBox, Color, Rand, Ray, Vec3,
 };
 
 pub struct Object {
@@ -37,5 +37,8 @@ impl Hittable for Object {
     }
     fn hit_normal(&self, ray: &Ray, hit_point: &Vec3) -> Vec3 {
         return self.hitbox.hit_normal(ray, hit_point);
+    }
+    fn bounds(&self) -> BoundingBox {
+        return self.hitbox.bounds();
     }
 }

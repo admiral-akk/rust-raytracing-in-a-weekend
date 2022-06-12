@@ -1,4 +1,4 @@
-use crate::{Ray, Vec3};
+use crate::{math::vector, BoundingBox, Ray, Vec3};
 
 use super::hittable::Hittable;
 
@@ -40,5 +40,12 @@ impl Hittable for Sphere {
 
     fn hit_normal(&self, _ray: &Ray, hit_point: &Vec3) -> Vec3 {
         return (hit_point - &self.pos).normalized();
+    }
+
+    fn bounds(&self) -> BoundingBox {
+        BoundingBox::new(
+            self.pos - (self.radius_sq.sqrt() * vector::ONE),
+            self.pos + (self.radius_sq.sqrt() * vector::ONE),
+        )
     }
 }
