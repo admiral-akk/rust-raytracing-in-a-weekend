@@ -12,6 +12,10 @@ impl BoundingBox {
         BoundingBox { min: min, max: max }
     }
 
+    pub fn union(box1: &BoundingBox, box2: &BoundingBox) -> BoundingBox {
+        BoundingBox::new(box1.min.min(&box2.min), box1.max.max(&box2.max))
+    }
+
     fn time_range(slope: f32, start: f32, min: f32, max: f32) -> (f32, f32) {
         if slope == 0.0 {
             if start > max || start < min {
@@ -32,7 +36,7 @@ impl Hittable for BoundingBox {
         let z_range = BoundingBox::time_range(ray.dir.z, ray.pos.z, self.min.z, self.max.z);
         let min_t = f32::max(x_range.0, f32::max(y_range.0, z_range.0));
         let max_t = f32::min(x_range.1, f32::min(y_range.1, z_range.1));
-        if max_t < min_t || min_t < 0.001 {
+        if max_t < min_t || max_t < 0.0001 {
             return f32::INFINITY;
         }
         return min_t;

@@ -46,6 +46,22 @@ impl Vec3 {
             z: self.x * other.y - self.y * other.x,
         }
     }
+
+    pub fn min(&self, other: &Vec3) -> Vec3 {
+        Vec3 {
+            x: f32::min(self.x, other.x),
+            y: f32::min(self.y, other.y),
+            z: f32::min(self.z, other.z),
+        }
+    }
+
+    pub fn max(&self, other: &Vec3) -> Vec3 {
+        Vec3 {
+            x: f32::max(self.x, other.x),
+            y: f32::max(self.y, other.y),
+            z: f32::max(self.z, other.z),
+        }
+    }
 }
 
 impl Add for Vec3 {
