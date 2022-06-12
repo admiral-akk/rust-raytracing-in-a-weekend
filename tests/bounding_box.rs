@@ -1,8 +1,7 @@
-//! Test suite for the Web and headless browsers.
 #[cfg(test)]
 
 mod tests {
-    use rust_ray::{BoundingBox, Display, Hittable, Ray, Vec3, World};
+    use rust_ray::{BoundingBox, Hittable, Ray, Vec3};
 
     #[test]
     fn hit() {

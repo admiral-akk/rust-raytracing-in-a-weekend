@@ -2,7 +2,7 @@
 #[cfg(test)]
 
 mod tests {
-    use rust_ray::{BoundingBox, Display, Hittable, Ray, Vec3, World};
+    use rust_ray::{Display, Ray, Vec3, World};
 
     #[test]
     fn tiny() {
