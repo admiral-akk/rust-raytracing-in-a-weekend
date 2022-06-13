@@ -22,7 +22,9 @@ impl World {
         self.objects.push(object);
     }
 }
-use std::{cmp::Ordering::Equal, fmt::Debug};
+
+use std::cmp::Ordering::Equal;
+
 impl World {
     pub fn recalculate_heap(&mut self) {
         // sort the objects here
@@ -91,7 +93,8 @@ impl World {
                 let obj_index = index - self.heap.len();
                 self.test_hit(ray, &self.objects[obj_index], ret);
             } else {
-                if !self.heap[index].is_hit2(ray, ret.t) {
+                let (mut t_min, mut t_max) = (0.0001, ret.t);
+                if !self.heap[index].is_hit(ray, &mut t_min, &mut t_max) {
                     continue;
                 }
                 index_queue.push(2 * index + 1);
@@ -112,11 +115,6 @@ impl World {
 }
 
 impl World {
-    fn hit_ineffecient<'a>(&'a self, ray: &Ray, ret: &mut HitRecord<'a>) {
-        for i in 0..self.objects.len() {
-            self.test_hit(ray, &self.objects[i], ret);
-        }
-    }
     pub fn hit<'a>(&'a self, ray: &Ray) -> HitRecord<'a> {
         let mut ret: HitRecord = hit_record::DEFAULT;
         self.hit_effecient(ray, &mut ret);

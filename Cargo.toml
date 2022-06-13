@@ -39,12 +39,9 @@ wasm-bindgen-test = "0.3.13"
 
 [profile.dev]
 opt-level = 3
-debug = 1
 [profile.test]
-debug = 1
 opt-level = 3
 [profile.release]
-debug = 1
 opt-level = 3
 [package.metadata.wasm-pack.profile.release]
-wasm-opt = ['-O4', '-g']
+wasm-opt = ['-O4']

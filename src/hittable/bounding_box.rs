@@ -1,5 +1,3 @@
-use std::mem::swap;
-
 use crate::{math::vector, Ray, Vec3};
 
 use super::hittable::Hittable;
@@ -84,13 +82,14 @@ impl BoundingBox {
         return true;
     }
 
+    #[inline(always)]
     pub fn is_hit(&self, ray: &Ray, min_t: &mut f32, max_t: &mut f32) -> bool {
-        BoundingBox::effecient_hit(ray.dir.x, ray.pos.x, self.min.x, self.max.x, min_t, max_t)
+        BoundingBox::effecient_hit(ray.dir.z, ray.pos.z, self.min.z, self.max.z, min_t, max_t)
             && BoundingBox::effecient_hit(
                 ray.dir.y, ray.pos.y, self.min.y, self.max.y, min_t, max_t,
             )
             && BoundingBox::effecient_hit(
-                ray.dir.z, ray.pos.z, self.min.z, self.max.z, min_t, max_t,
+                ray.dir.x, ray.pos.x, self.min.x, self.max.x, min_t, max_t,
             )
     }
     #[inline(always)]

@@ -1,10 +1,13 @@
 import { Display } from "rust-ray";
 import { memory } from "rust-ray/rust_ray_bg";
 
-const width = 1280;
-const height = 720;
-const sample_count = 1;
-const fov_angle = 20;
+const urlSearchParams = new URLSearchParams(window.location.search);
+
+const width = urlSearchParams.has("width") ? parseInt(urlSearchParams.get("width")) : 1280 / 5;
+const height = urlSearchParams.has("height") ? parseInt(urlSearchParams.get("height")) : 720 / 5;
+const sample_count = urlSearchParams.has("samples") ? parseInt(urlSearchParams.get("samples")) : 10;
+const fov_angle = urlSearchParams.has("fov") ? parseFloat(urlSearchParams.get("fov")) : 20;
+
 
 const display = Display.new(width, height, sample_count, fov_angle);
 const canvas = document.getElementById("raytracing-canvas");

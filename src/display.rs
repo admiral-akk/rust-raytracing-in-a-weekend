@@ -1,6 +1,8 @@
 use wasm_bindgen::prelude::wasm_bindgen;
 
-use crate::{math::vector, scene::init_scene, utils, Camera, Color, Rand, Vec3, World};
+use crate::{
+    material::color, math::vector, scene::init_scene, utils, Camera, Color, Rand, Vec3, World,
+};
 
 #[wasm_bindgen]
 pub struct Display {
@@ -11,6 +13,40 @@ pub struct Display {
     camera: Camera,
     world: World,
     rand: Rand,
+}
+
+impl Display {
+    pub fn rgb(&self, x: u32, y: u32) -> (u8, u8, u8) {
+        let index = (3 * ((x % self.width) + (y % self.height) * self.width)) as usize;
+        return (
+            self.pixels[index],
+            self.pixels[index + 1],
+            self.pixels[index + 2],
+        );
+    }
+}
+
+struct Samples {
+    color: Color,
+    sample_count: u32,
+}
+
+impl Samples {
+    pub fn new() -> Samples {
+        Samples {
+            color: color::BLACK,
+            sample_count: 0,
+        }
+    }
+
+    pub fn add(&mut self, color: &Color) {
+        self.color += *color;
+        self.sample_count += 1;
+    }
+
+    pub fn rgb(&self) -> (u8, u8, u8) {
+        return self.color.to_rgb(self.sample_count as f32);
+    }
 }
 
 #[wasm_bindgen]
@@ -33,34 +69,73 @@ impl Display {
                 vector::ZERO,
             ),
             world: World::new(),
-            rand: Rand::new(859),
+            rand: Rand::new(7919),
         };
         init_scene::init_scene(&mut display.world, 11);
         return display;
     }
-    pub fn tick(&mut self, _time: u32) -> () {
-        let time = 0;
-        for y in 0..self.height {
-            for x in 0..self.width {
-                let mut color = Color {
-                    r: 0.0,
-                    g: 0.0,
-                    b: 0.0,
-                };
-                for _ in 0..self.sample_count {
-                    color += self.camera.color(
-                        ((x as f32) + self.rand.rand()) / (self.width as f32),
-                        ((y as f32) + self.rand.rand()) / (self.height as f32),
-                        &self.world,
-                        &mut self.rand,
-                    );
-                }
 
-                let index = (3
-                    * (((x + time) % self.width) + ((y + time) % self.height) * self.width))
-                    as usize;
-                let color_arr = &mut self.pixels[index..(index + 3)];
-                (color_arr[0], color_arr[1], color_arr[2]) = color.to_rgb(self.sample_count as f32);
+    fn measure_delta(&self, x: i32, y: i32) -> f32 {
+        let top = self.rgb_int(x, y - 1);
+        let left = self.rgb_int(x - 1, y);
+        let bot = self.rgb_int(x, y + 1);
+        let right = self.rgb_int(x + 1, y);
+        let mid = self.rgb_int(x, y);
+
+        return (i32::abs(bot.0 + top.0 - 2 * mid.0)
+            + i32::abs(bot.1 + top.1 - 2 * mid.1)
+            + i32::abs(bot.2 + top.2 - 2 * mid.2)
+            + i32::abs(left.0 + right.0 - 2 * mid.0)
+            + i32::abs(left.1 + right.1 - 2 * mid.1)
+            + i32::abs(left.2 + right.2 - 2 * mid.2)) as f32
+            / (255.0 * 12.0);
+    }
+
+    fn rgb_int(&self, x: i32, y: i32) -> (i32, i32, i32) {
+        if x < 0 || x >= (self.width as i32) || y < 0 || y >= (self.height as i32) {
+            return (0, 0, 0);
+        }
+        let index = (y * (self.width as i32) + x) as usize;
+        return (
+            self.pixels[3 * index] as i32,
+            self.pixels[3 * index + 1] as i32,
+            self.pixels[3 * index + 2] as i32,
+        );
+    }
+
+    pub fn tick(&mut self, _time: u32) -> () {
+        let mut samples: Vec<Samples> = Vec::new();
+        while samples.len() < (self.height * self.width) as usize {
+            samples.push(Samples::new());
+        }
+        for _ in 0..self.sample_count {
+            for y in 0..self.height {
+                for x in 0..self.width {
+                    let index = (y * self.width + x) as usize;
+                    let delta = self.measure_delta(x as i32, y as i32);
+                    if delta + 1.0 / (1.0 + samples[index].sample_count as f32)
+                        > self.rand.random_range(0.0, 0.5)
+                    {
+                        let mut color = self.camera.color(
+                            ((x as f32) + self.rand.rand()) / (self.width as f32),
+                            ((y as f32) + self.rand.rand()) / (self.height as f32),
+                            &self.world,
+                            &mut self.rand,
+                        );
+                        while color == color::BLACK {
+                            samples[index].add(&color);
+                            color = self.camera.color(
+                                ((x as f32) + self.rand.rand()) / (self.width as f32),
+                                ((y as f32) + self.rand.rand()) / (self.height as f32),
+                                &self.world,
+                                &mut self.rand,
+                            );
+                        }
+                        samples[index].add(&color);
+                        let color_arr = &mut self.pixels[(3 * index)..(3 * index + 3)];
+                        (color_arr[0], color_arr[1], color_arr[2]) = samples[index].rgb();
+                    }
+                }
             }
         }
     }
