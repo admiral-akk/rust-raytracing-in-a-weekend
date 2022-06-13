@@ -1,6 +1,6 @@
 use wasm_bindgen::prelude::wasm_bindgen;
 
-use crate::{math::vector, utils, Camera, Color, Rand, Vec3, World};
+use crate::{math::vector, scene::init_scene, utils, Camera, Color, Rand, Vec3, World};
 
 #[wasm_bindgen]
 pub struct Display {
@@ -35,7 +35,7 @@ impl Display {
             world: World::new(),
             rand: Rand::new(859),
         };
-        display.world.random_scene(11);
+        init_scene::init_scene(&mut display.world, 11);
         return display;
     }
     pub fn tick(&mut self, _time: u32) -> () {

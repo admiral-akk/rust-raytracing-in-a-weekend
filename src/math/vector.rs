@@ -13,6 +13,9 @@ pub const ZERO: Vec3 = Vec3::new(0.0, 0.0, 0.0);
 pub const ONE: Vec3 = Vec3::new(1.0, 1.0, 1.0);
 pub const DOWN: Vec3 = Vec3::new(0.0, -1.0, 0.0);
 pub const UP: Vec3 = Vec3::new(0.0, 1.0, 0.0);
+pub const LEFT: Vec3 = Vec3::new(-1.0, 0.0, 0.0);
+pub const RIGHT: Vec3 = Vec3::new(1.0, 0.0, 0.0);
+pub const FORWARD: Vec3 = Vec3::new(0.0, 0.0, 1.0);
 
 impl Vec3 {
     pub const fn new(x: f32, y: f32, z: f32) -> Vec3 {

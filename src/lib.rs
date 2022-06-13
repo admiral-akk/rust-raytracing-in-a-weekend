@@ -17,6 +17,7 @@ pub use crate::math::ray::Ray;
 pub use crate::math::vector::Vec3;
 pub use crate::rand::rand::Rand;
 pub use crate::scene::camera::Camera;
+pub use crate::scene::init_scene::init_scene;
 pub use crate::scene::world::World;
 use wasm_bindgen::prelude::*;
 
