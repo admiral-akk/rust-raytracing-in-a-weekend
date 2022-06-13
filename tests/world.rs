@@ -163,6 +163,51 @@ mod tests {
     }
 
     #[test]
+    fn hit5() {
+        let mut world = World::new();
+        world.push(Object::new(
+            Box::new(Sphere::new(8.0 * vector::UP + 10.0 * vector::BACK, 1.0)),
+            Box::new(Dielectric::new(1.5)),
+        ));
+        world.push(Object::new(
+            Box::new(Sphere::new(2.0 * vector::FORWARD, 1.0)),
+            Box::new(Dielectric::new(1.5)),
+        ));
+        world.push(Object::new(
+            Box::new(Sphere::new(5.0 * vector::FORWARD, 1.0)),
+            Box::new(Dielectric::new(1.5)),
+        ));
+        world.push(Object::new(
+            Box::new(Sphere::new(10.0 * vector::FORWARD, 1.0)),
+            Box::new(Dielectric::new(1.5)),
+        ));
+        world.push(Object::new(
+            Box::new(Sphere::new(4.0 * vector::DOWN + 10.0 * vector::BACK, 1.0)),
+            Box::new(Dielectric::new(1.5)),
+        ));
+        world.push(Object::new(
+            Box::new(Sphere::new(4.0 * vector::RIGHT + vector::FORWARD, 1.0)),
+            Box::new(Dielectric::new(1.5)),
+        ));
+        world.push(Object::new(
+            Box::new(Sphere::new(8.0 * vector::RIGHT + vector::FORWARD, 1.0)),
+            Box::new(Dielectric::new(1.5)),
+        ));
+        world.push(Object::new(
+            Box::new(Sphere::new(8.0 * vector::RIGHT + 10.0 * vector::BACK, 1.0)),
+            Box::new(Dielectric::new(1.5)),
+        ));
+        world.push(Object::new(
+            Box::new(Sphere::new(8.0 * vector::DOWN + 10.0 * vector::BACK, 1.0)),
+            Box::new(Dielectric::new(1.5)),
+        ));
+        world.recalculate_heap();
+
+        let ray = Ray::new(vector::ZERO, vector::FORWARD);
+        assert_eq!(world.hit(&ray).t, 1.0);
+    }
+
+    #[test]
     fn empty_world() {
         let mut world = World::new();
         init_scene(&mut world, 0);

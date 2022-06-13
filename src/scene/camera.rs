@@ -36,6 +36,6 @@ impl Camera {
             dir: (focal_center + y_delta + x_delta).normalized(),
         };
 
-        return Ray::color(&mut ray, world, rand, 100);
+        return Ray::color(&mut ray, world, rand, 20);
     }
 }

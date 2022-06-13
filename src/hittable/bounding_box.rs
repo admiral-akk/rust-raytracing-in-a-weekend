@@ -20,7 +20,14 @@ impl BoundingBox {
         BoundingBox::new(box1.min.min(&box2.min), box1.max.max(&box2.max))
     }
 
-    pub fn effecient_hit(slope: f32, start: f32, min: f32, max: f32) -> bool {
+    pub fn effecient_hit(
+        slope: f32,
+        start: f32,
+        min: f32,
+        max: f32,
+        t_min: &mut f32,
+        t_max: &mut f32,
+    ) -> bool {
         if slope == 0.0 {
             return min <= start && start <= max;
         }
@@ -32,13 +39,23 @@ impl BoundingBox {
             t0 = t1;
             t1 = temp;
         }
-        return t1 > t0;
+        if t0 > *t_min {
+            *t_min = t0;
+        }
+        if t1 < *t_max {
+            *t_max = t1;
+        }
+        return t_max >= t_min;
     }
 
-    pub fn is_hit(&self, ray: &Ray) -> bool {
-        return BoundingBox::effecient_hit(ray.dir.x, ray.pos.x, self.min.x, self.max.x)
-            && BoundingBox::effecient_hit(ray.dir.y, ray.pos.y, self.min.y, self.max.y)
-            && BoundingBox::effecient_hit(ray.dir.z, ray.pos.z, self.min.z, self.max.z);
+    pub fn is_hit(&self, ray: &Ray, min_t: &mut f32, max_t: &mut f32) -> bool {
+        BoundingBox::effecient_hit(ray.dir.x, ray.pos.x, self.min.x, self.max.x, min_t, max_t)
+            && BoundingBox::effecient_hit(
+                ray.dir.y, ray.pos.y, self.min.y, self.max.y, min_t, max_t,
+            )
+            && BoundingBox::effecient_hit(
+                ray.dir.z, ray.pos.z, self.min.z, self.max.z, min_t, max_t,
+            )
     }
 
     fn time_range(slope: f32, start: f32, min: f32, max: f32) -> (f32, f32) {
@@ -59,9 +76,13 @@ impl Hittable for BoundingBox {
         let x_range = BoundingBox::time_range(ray.dir.x, ray.pos.x, self.min.x, self.max.x);
         let y_range = BoundingBox::time_range(ray.dir.y, ray.pos.y, self.min.y, self.max.y);
         let z_range = BoundingBox::time_range(ray.dir.z, ray.pos.z, self.min.z, self.max.z);
-        let min_t = f32::max(x_range.0, f32::max(y_range.0, z_range.0));
         let max_t = f32::min(x_range.1, f32::min(y_range.1, z_range.1));
-        if max_t < min_t || max_t < 0.0001 {
+        if max_t < 0.0001 {
+            return f32::INFINITY;
+        }
+
+        let min_t = f32::max(x_range.0, f32::max(y_range.0, z_range.0));
+        if max_t < min_t {
             return f32::INFINITY;
         }
         return min_t;

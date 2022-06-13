@@ -22,7 +22,7 @@ impl World {
         self.objects.push(object);
     }
 }
-use std::cmp::Ordering::Equal;
+use std::{cmp::Ordering::Equal, fmt::Debug};
 impl World {
     pub fn recalculate_heap(&mut self) {
         // sort the objects here

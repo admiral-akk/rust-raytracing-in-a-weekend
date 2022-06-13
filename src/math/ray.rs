@@ -1,5 +1,6 @@
 use crate::{hittable::hit_record::HitRecord, material::color, Color, Rand, Vec3, World};
 
+#[derive(Debug)]
 pub struct Ray {
     pub pos: Vec3,
     pub dir: Vec3,
