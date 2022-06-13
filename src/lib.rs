@@ -11,6 +11,7 @@ pub use crate::hittable::bounding_box::BoundingBox;
 pub use crate::hittable::hittable::Hittable;
 pub use crate::hittable::sphere::Sphere;
 pub use crate::material::color::Color;
+pub use crate::material::dielectric::Dielectric;
 pub use crate::material::lambertian::Lambertian;
 pub use crate::material::metal::Metal;
 pub use crate::math::ray::Ray;
@@ -18,6 +19,7 @@ pub use crate::math::vector::Vec3;
 pub use crate::rand::rand::Rand;
 pub use crate::scene::camera::Camera;
 pub use crate::scene::init_scene::init_scene;
+pub use crate::scene::object::Object;
 pub use crate::scene::world::World;
 use wasm_bindgen::prelude::*;
 
