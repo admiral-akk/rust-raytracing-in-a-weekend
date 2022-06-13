@@ -48,6 +48,42 @@ impl BoundingBox {
         return t_max >= t_min;
     }
 
+    #[inline(always)]
+    pub fn is_hit2(&self, ray: &Ray, curr_t: f32) -> bool {
+        let (mut min_t, mut max_t) = (0.0001, curr_t);
+        let x_range = BoundingBox::time_range(ray.dir.x, ray.pos.x, self.min.x, self.max.x);
+        if x_range.0 > min_t {
+            min_t = x_range.0;
+        }
+        if x_range.1 < max_t {
+            max_t = x_range.1;
+        }
+        if max_t <= min_t {
+            return false;
+        }
+        let y_range = BoundingBox::time_range(ray.dir.y, ray.pos.y, self.min.y, self.max.y);
+        if y_range.0 > min_t {
+            min_t = y_range.0;
+        }
+        if y_range.1 < max_t {
+            max_t = y_range.1;
+        }
+        if max_t <= min_t {
+            return false;
+        }
+        let z_range = BoundingBox::time_range(ray.dir.z, ray.pos.z, self.min.z, self.max.z);
+        if z_range.0 > min_t {
+            min_t = z_range.0;
+        }
+        if z_range.1 < max_t {
+            max_t = z_range.1;
+        }
+        if max_t <= min_t {
+            return false;
+        }
+        return true;
+    }
+
     pub fn is_hit(&self, ray: &Ray, min_t: &mut f32, max_t: &mut f32) -> bool {
         BoundingBox::effecient_hit(ray.dir.x, ray.pos.x, self.min.x, self.max.x, min_t, max_t)
             && BoundingBox::effecient_hit(
@@ -57,7 +93,7 @@ impl BoundingBox {
                 ray.dir.z, ray.pos.z, self.min.z, self.max.z, min_t, max_t,
             )
     }
-
+    #[inline(always)]
     fn time_range(slope: f32, start: f32, min: f32, max: f32) -> (f32, f32) {
         if slope == 0.0 {
             if start > max || start < min {
@@ -65,9 +101,14 @@ impl BoundingBox {
             }
             return (f32::NEG_INFINITY, f32::INFINITY);
         }
-        let (min_t, max_t) = ((min - start) / slope, (max - start) / slope);
+        let (mut min_t, mut max_t) = ((min - start) / slope, (max - start) / slope);
+        if min_t > max_t {
+            let temp = min_t;
+            min_t = max_t;
+            max_t = temp;
+        }
 
-        return (f32::min(min_t, max_t), f32::max(min_t, max_t));
+        return (min_t, max_t);
     }
 }
 

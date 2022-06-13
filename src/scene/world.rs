@@ -83,19 +83,24 @@ impl World {
         return self.heap[index].bounds();
     }
 
-    fn hit_effecient<'a>(&'a self, ray: &Ray, ret: &mut HitRecord<'a>, index: usize) {
-        if index >= self.heap.len() {
-            let obj_index = index - self.heap.len();
-            self.test_hit(ray, &self.objects[obj_index], ret);
-        } else {
-            if self.heap[index].hit(ray) == f32::INFINITY {
-                return;
+    fn hit_effecient<'a>(&'a self, ray: &Ray, ret: &mut HitRecord<'a>) {
+        let mut index_queue: Vec<usize> = vec![0];
+        while !index_queue.is_empty() {
+            let index = index_queue.pop().unwrap();
+            if index >= self.heap.len() {
+                let obj_index = index - self.heap.len();
+                self.test_hit(ray, &self.objects[obj_index], ret);
+            } else {
+                if !self.heap[index].is_hit2(ray, ret.t) {
+                    continue;
+                }
+                index_queue.push(2 * index + 1);
+                index_queue.push(2 * index + 2);
             }
-            self.hit_effecient(ray, ret, 2 * index + 1);
-            self.hit_effecient(ray, ret, 2 * index + 2);
         }
     }
 
+    #[inline(always)]
     fn test_hit<'a>(&'a self, ray: &Ray, object: &'a Object, ret: &mut HitRecord<'a>) {
         let t = object.hit(ray);
         if t >= ret.t {
@@ -114,7 +119,7 @@ impl World {
     }
     pub fn hit<'a>(&'a self, ray: &Ray) -> HitRecord<'a> {
         let mut ret: HitRecord = hit_record::DEFAULT;
-        self.hit_effecient(ray, &mut ret, 0);
+        self.hit_effecient(ray, &mut ret);
         let mut ret2: HitRecord = hit_record::DEFAULT;
         //self.hit_ineffecient(ray, &mut ret2);
         // assert_eq!(ret, ret2);
