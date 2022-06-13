@@ -42,7 +42,25 @@ impl Hittable for BoundingBox {
         return min_t;
     }
 
-    fn hit_normal(&self, ray: &crate::Ray, hit_point: &Vec3) -> Vec3 {
+    fn hit_normal(&self, _ray: &crate::Ray, _hit_point: &Vec3) -> Vec3 {
+        if _hit_point.x == self.min.x {
+            return vector::LEFT;
+        }
+        if _hit_point.x == self.max.x {
+            return vector::RIGHT;
+        }
+        if _hit_point.y == self.min.y {
+            return vector::DOWN;
+        }
+        if _hit_point.y == self.max.y {
+            return vector::UP;
+        }
+        if _hit_point.z == self.min.z {
+            return vector::BACK;
+        }
+        if _hit_point.z == self.max.z {
+            return vector::FORWARD;
+        }
         return vector::ZERO;
     }
 
