@@ -29,11 +29,11 @@ impl Hittable for Sphere {
         }
         let discriminant = dis.sqrt();
         let mut t = -discriminant - b;
-        if t < 0.001 {
+        if t < 0.0001 {
             t = discriminant - b;
-            if t < 0.001 {
-                return f32::INFINITY;
-            }
+        }
+        if t < 0.0001 {
+            return f32::INFINITY;
         }
         return t;
     }

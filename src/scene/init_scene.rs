@@ -66,4 +66,5 @@ pub fn init_scene(world: &mut World, range: i32) {
             0.0,
         )),
     ));
+    world.recalculate_heap();
 }

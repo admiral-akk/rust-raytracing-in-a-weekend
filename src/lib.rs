@@ -16,6 +16,7 @@ pub use crate::material::lambertian::Lambertian;
 pub use crate::material::metal::Metal;
 pub use crate::math::ray::Ray;
 pub use crate::math::vector::Vec3;
+pub use crate::math::vector;
 pub use crate::rand::rand::Rand;
 pub use crate::scene::camera::Camera;
 pub use crate::scene::init_scene::init_scene;
