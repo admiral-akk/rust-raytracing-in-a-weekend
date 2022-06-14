@@ -109,6 +109,7 @@ impl Display {
             samples.push(Samples::new());
         }
         for _ in 0..self.sample_count {
+            self.rand = Rand::new(7919);
             for y in 0..self.height {
                 for x in 0..self.width {
                     let index = (y * self.width + x) as usize;
