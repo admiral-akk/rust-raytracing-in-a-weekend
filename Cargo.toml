@@ -1,8 +1,8 @@
 [package]
 name = "rust-ray"
 version = "0.1.0"
+edition = "2021"
 authors = ["Kuba Karpierz <mr.karpierz@gmail.com>"]
-edition = "2018"
 
 [lib]
 crate-type = ["cdylib", "rlib"]
