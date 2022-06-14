@@ -1,7 +1,4 @@
-use std::{
-    fs::{self, File},
-    io::Write,
-};
+use std::{fs::File, io::Write};
 
 use rust_ray::Display;
 fn main() -> std::io::Result<()> {

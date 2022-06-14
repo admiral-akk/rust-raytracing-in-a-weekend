@@ -17,6 +17,11 @@ path = "src/main.rs"
 default = ["console_error_panic_hook"]
 
 [dependencies]
+cfg-if = "1"
+winit = "0.26"
+env_logger = "0.9"
+log = "0.4"
+wgpu = "0.12"
 wasm-bindgen = "0.2.63"
 rand = "0.8.5"
 getrandom = { version = "0.2", features = ["js"] }
@@ -33,7 +38,17 @@ console_error_panic_hook = { version = "0.1.6", optional = true }
 #
 # Unfortunately, `wee_alloc` requires nightly Rust when targeting wasm for now.
 wee_alloc = { version = "0.4.5", optional = true }
-
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+console_error_panic_hook = "0.1.6"
+console_log = "0.2.0"
+wgpu = { version = "0.12", features = ["webgl"]}
+wasm-bindgen = "0.2"
+web-sys = { version = "0.3", features = [
+    "Document",
+    "Window",
+    "Element",
+]}
+ 
 [dev-dependencies]
 wasm-bindgen-test = "0.3.13"
 
