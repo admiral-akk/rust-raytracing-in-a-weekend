@@ -36,6 +36,7 @@ wee_alloc = { version = "0.4.5", optional = true }
 
 [dev-dependencies]
 wasm-bindgen-test = "0.3.13"
+criterion = "0.3"
 
 [profile.dev]
 opt-level = 3
@@ -45,3 +46,16 @@ opt-level = 3
 opt-level = 3
 [package.metadata.wasm-pack.profile.release]
 wasm-opt = ['-O4']
+
+[[bench]]
+name = "sphere"
+harness = false
+[[bench]]
+name = "bounding_box"
+harness = false
+[[bench]]
+name = "ray"
+harness = false
+[[bench]]
+name = "vector"
+harness = false

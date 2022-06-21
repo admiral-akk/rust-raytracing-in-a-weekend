@@ -23,6 +23,7 @@ impl Vec3 {
         Vec3 { x: x, y: y, z: z }
     }
 
+    #[inline]
     pub fn normalized(&self) -> Vec3 {
         let norm = self.length();
         Vec3 {
@@ -32,18 +33,22 @@ impl Vec3 {
         }
     }
 
+    #[inline]
     pub fn length(&self) -> f32 {
         return self.length_squared().sqrt();
     }
 
+    #[inline]
     pub fn length_squared(&self) -> f32 {
         return self.x * self.x + self.y * self.y + self.z * self.z;
     }
 
+    #[inline]
     pub fn random_unit(rand: &mut Rand) -> Vec3 {
         return rand.random_unit();
     }
 
+    #[inline]
     pub fn cross(&self, other: &Vec3) -> Vec3 {
         Vec3 {
             x: self.y * other.z - self.z * other.y,
@@ -52,6 +57,7 @@ impl Vec3 {
         }
     }
 
+    #[inline]
     pub fn min(&self, other: &Vec3) -> Vec3 {
         Vec3 {
             x: f32::min(self.x, other.x),
@@ -60,6 +66,7 @@ impl Vec3 {
         }
     }
 
+    #[inline]
     pub fn max(&self, other: &Vec3) -> Vec3 {
         Vec3 {
             x: f32::max(self.x, other.x),
@@ -72,6 +79,7 @@ impl Vec3 {
 impl Add for Vec3 {
     type Output = Self;
 
+    #[inline]
     fn add(self, other: Self) -> Self {
         Self {
             x: self.x + other.x,
@@ -82,6 +90,7 @@ impl Add for Vec3 {
 }
 
 impl AddAssign for Vec3 {
+    #[inline]
     fn add_assign(&mut self, other: Self) {
         self.x += other.x;
         self.y += other.y;
@@ -92,6 +101,7 @@ impl AddAssign for Vec3 {
 impl Mul<f32> for Vec3 {
     type Output = Vec3;
 
+    #[inline]
     fn mul(self, other: f32) -> Self {
         Vec3 {
             x: self.x * other,
@@ -104,6 +114,7 @@ impl Mul<f32> for Vec3 {
 impl Neg for Vec3 {
     type Output = Self;
 
+    #[inline]
     fn neg(self) -> Self {
         Vec3 {
             x: -self.x,
@@ -116,6 +127,7 @@ impl Neg for Vec3 {
 impl Mul<Vec3> for f32 {
     type Output = Vec3;
 
+    #[inline]
     fn mul(self, other: Vec3) -> Vec3 {
         other * self
     }
@@ -124,6 +136,7 @@ impl Mul<Vec3> for f32 {
 impl Sub for &Vec3 {
     type Output = Vec3;
 
+    #[inline]
     fn sub(self, other: &Vec3) -> Vec3 {
         Vec3 {
             x: self.x - other.x,
@@ -136,6 +149,7 @@ impl Sub for &Vec3 {
 impl Sub for Vec3 {
     type Output = Vec3;
 
+    #[inline]
     fn sub(self, other: Vec3) -> Self {
         Vec3 {
             x: self.x - other.x,
@@ -147,6 +161,7 @@ impl Sub for Vec3 {
 
 impl Mul<&Vec3> for &Vec3 {
     type Output = f32;
+    #[inline]
     fn mul(self, other: &Vec3) -> f32 {
         return self.x * other.x + self.y * other.y + self.z * other.z;
     }

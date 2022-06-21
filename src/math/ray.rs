@@ -7,10 +7,12 @@ pub struct Ray {
 }
 
 impl Ray {
+    #[inline]
     pub fn new(pos: Vec3, dir: Vec3) -> Self {
         Self { pos, dir }
     }
 
+    #[inline]
     pub fn project(&self, t: f32) -> Vec3 {
         return self.pos + t * self.dir;
     }

@@ -10,6 +10,7 @@ pub struct BoundingBox {
 pub const DEFAULT: BoundingBox = BoundingBox::new(vector::ZERO, vector::ZERO);
 
 impl BoundingBox {
+    #[inline]
     pub const fn new(min: Vec3, max: Vec3) -> BoundingBox {
         BoundingBox { min: min, max: max }
     }

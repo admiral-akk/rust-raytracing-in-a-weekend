@@ -3,11 +3,12 @@ use crate::{math::vector, BoundingBox, Ray, Vec3};
 use super::hittable::Hittable;
 
 pub struct Sphere {
-    pos: Vec3,
-    radius_sq: f32,
+    pub pos: Vec3,
+    pub radius_sq: f32,
 }
 
 impl Sphere {
+    #[inline]
     pub fn new(pos: Vec3, radius: f32) -> Self {
         Self {
             pos,
@@ -38,10 +39,12 @@ impl Hittable for Sphere {
         return t;
     }
 
+    #[inline]
     fn hit_normal(&self, _ray: &Ray, hit_point: &Vec3) -> Vec3 {
         return (hit_point - &self.pos).normalized();
     }
 
+    #[inline]
     fn bounds(&self) -> BoundingBox {
         BoundingBox::new(
             self.pos - (self.radius_sq.sqrt() * vector::ONE),

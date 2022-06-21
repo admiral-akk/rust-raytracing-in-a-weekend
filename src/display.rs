@@ -1,3 +1,5 @@
+use std::time::SystemTime;
+
 use wasm_bindgen::prelude::wasm_bindgen;
 
 use crate::{
@@ -108,8 +110,11 @@ impl Display {
         while samples.len() < (self.height * self.width) as usize {
             samples.push(Samples::new());
         }
+
         for _ in 0..self.sample_count {
             self.rand = Rand::new(7919);
+            let time = SystemTime::now();
+            let mut sample_count = 0;
             for y in 0..self.height {
                 for x in 0..self.width {
                     let index = (y * self.width + x) as usize;
@@ -123,7 +128,9 @@ impl Display {
                             &self.world,
                             &mut self.rand,
                         );
+                        sample_count = sample_count + 1;
                         while color == color::BLACK {
+                            sample_count = sample_count + 1;
                             samples[index].add(&color);
                             color = self.camera.color(
                                 ((x as f32) + self.rand.rand()) / (self.width as f32),
@@ -138,6 +145,11 @@ impl Display {
                     }
                 }
             }
+            print!(
+                "{} samples take\n{}ms passed\n",
+                sample_count,
+                SystemTime::now().duration_since(time).unwrap().as_millis()
+            );
         }
     }
 
