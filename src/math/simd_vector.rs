@@ -17,7 +17,6 @@ impl Vec3Simd {
 
 impl Mul<&Vec3Simd> for &Vec3Simd {
     type Output = f32;
-    #[inline]
     fn mul(self, other: &Vec3Simd) -> f32 {
         unsafe {
             let mut v = _mm_mul_ps(self.xyzw, other.xyzw);

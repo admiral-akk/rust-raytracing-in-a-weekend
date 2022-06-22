@@ -10,7 +10,6 @@ pub struct BoundingBox {
 pub const DEFAULT: BoundingBox = BoundingBox::new(vector::ZERO, vector::ZERO);
 
 impl BoundingBox {
-    #[inline]
     pub const fn new(min: Vec3, max: Vec3) -> BoundingBox {
         BoundingBox { min: min, max: max }
     }
@@ -19,6 +18,7 @@ impl BoundingBox {
         BoundingBox::new(box1.min.min(&box2.min), box1.max.max(&box2.max))
     }
 
+    #[inline(always)]
     pub fn effecient_hit(
         slope: f32,
         start: f32,
@@ -93,6 +93,7 @@ impl BoundingBox {
                 ray.dir.x, ray.pos.x, self.min.x, self.max.x, min_t, max_t,
             )
     }
+
     #[inline(always)]
     fn time_range(slope: f32, start: f32, min: f32, max: f32) -> (f32, f32) {
         if slope == 0.0 {
@@ -113,6 +114,7 @@ impl BoundingBox {
 }
 
 impl Hittable for BoundingBox {
+    #[inline(always)]
     fn hit(&self, ray: &Ray) -> f32 {
         let x_range = BoundingBox::time_range(ray.dir.x, ray.pos.x, self.min.x, self.max.x);
         let y_range = BoundingBox::time_range(ray.dir.y, ray.pos.y, self.min.y, self.max.y);

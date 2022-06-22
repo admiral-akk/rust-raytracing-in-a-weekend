@@ -103,7 +103,6 @@ impl World {
         }
     }
 
-    #[inline(always)]
     fn test_hit<'a>(&'a self, ray: &Ray, object: &'a Object, ret: &mut HitRecord<'a>) {
         let t = object.hit(ray);
         if t >= ret.t {

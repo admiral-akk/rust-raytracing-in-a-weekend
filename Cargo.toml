@@ -59,3 +59,9 @@ harness = false
 [[bench]]
 name = "vector"
 harness = false
+[[bench]]
+name = "world"
+harness = false
+[[bench]]
+name = "display"
+harness = false

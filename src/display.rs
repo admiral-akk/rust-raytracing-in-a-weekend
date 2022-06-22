@@ -145,11 +145,11 @@ impl Display {
                     }
                 }
             }
-            print!(
-                "{} samples take\n{}ms passed\n",
-                sample_count,
-                SystemTime::now().duration_since(time).unwrap().as_millis()
-            );
+            //print!(
+            //    "{} samples take\n{}ms passed\n",
+            //   sample_count,
+            //   SystemTime::now().duration_since(time).unwrap().as_millis()
+            //);
         }
     }
 
