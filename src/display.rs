@@ -111,9 +111,9 @@ impl Display {
             samples.push(Samples::new());
         }
 
-        for _ in 0..self.sample_count {
-            self.rand = Rand::new(7919);
+        for i in 0..self.sample_count {
             let time = SystemTime::now();
+            self.rand = Rand::new(7919);
             let mut sample_count = 0;
             for y in 0..self.height {
                 for x in 0..self.width {
@@ -145,11 +145,12 @@ impl Display {
                     }
                 }
             }
-            //print!(
-            //    "{} samples take\n{}ms passed\n",
-            //   sample_count,
-            //   SystemTime::now().duration_since(time).unwrap().as_millis()
-            //);
+            print!(
+                "sample iteration: {}\n{} samples taken\n{}ms passed\n",
+                i,
+                sample_count,
+                SystemTime::now().duration_since(time).unwrap().as_millis()
+            );
         }
     }
 

@@ -11,7 +11,7 @@ fn main() -> std::io::Result<()> {
 
     println!("Time to render: {}ms", delta.unwrap().as_millis());
     println!("Render complete, outputting!");
-    let mut file = File::create("test8.ppm")?;
+    let mut file = File::create("test10.ppm")?;
     let s = format!("P3\n{} {} 255\n", display.width(), display.height());
     file.write(s.as_bytes())?;
     for y in 0..display.height() {
